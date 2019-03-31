@@ -1,0 +1,131 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import "~@angular/material/theming";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$ng7-pre-primary: mat-palette($mat-green, 500, 200, 400);
+$ng7-pre-accent: mat-palette($mat-brown, 700, 100, 400);
+
+// The warn palette is optional (defaults to red).
+$ng7-pre-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$ng7-pre-theme: mat-light-theme(
+  $ng7-pre-primary,
+  $ng7-pre-accent,
+  $ng7-pre-warn
+);
+$primary: mat-color($ng7-pre-primary);
+$accent: mat-color($ng7-pre-accent);
+$warn: mat-color($ng7-pre-warn);
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($ng7-pre-theme);
+// @import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+// @import url("https://fonts.googleapis.com/css?family=Pangolin");
+// @import url("https://fonts.googleapis.com/css?family=Damion");
+@import url("https://fonts.googleapis.com/css?family=Iceberg");
+body,
+html {
+  height: 100%;
+  margin: 0 auto;
+  background: #fff;
+  color: #000;
+}
+
+body {
+  font-size: 18px;
+}
+
+* {
+  font-family: "Iceberg", cursive;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+a:visited {
+  color: black;
+}
+
+section {
+  margin: 0 auto;
+}
+
+.green {
+  color: lightgreen;
+}
+.large {
+  font-size: 4em;
+}
+.center {
+  text-align: center;
+}
+.right {
+  text-align: right;
+  float: right;
+}
+html,
+body {
+  height: 100%;
+}
+
+.custom-slider .ng5-slider .ng5-slider-bar {
+  background: rgba(255, 255, 255, 0.6);
+  height: 2px;
+}
+.custom-slider .ng5-slider .ng5-slider-selection {
+  background: $primary;
+}
+
+.custom-slider .ng5-slider .ng5-slider-pointer {
+  width: 15px;
+  height: 15px;
+  top: -20px;
+  bottom: 0;
+  background-color: $primary;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  margin-left: 3px;
+}
+
+.custom-slider .ng5-slider .ng5-slider-pointer:after {
+  background-color: $primary;
+  margin: -10px 0px 0px -7px;
+  position: absolute;
+}
+.ng5-slider .ng5-slider-pointer.ng5-slider-active:after {
+  background-color: white !important;
+}
+
+.custom-slider .ng5-slider .ng5-slider-bubble {
+  bottom: -25px;
+}
+
+//card colors
+.hdfc,
+.icici {
+  background-color: #ffcc3d !important;
+}
+
+.zeta,
+.paytm {
+  background-color: #6fa8dc !important;
+}
+
+.cash {
+  background-color: #b7e1cd !important;
+}
+
+.credit {
+  background-color: #f4c7c3 !important;
+}

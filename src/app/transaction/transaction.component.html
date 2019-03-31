@@ -1,0 +1,156 @@
+<div *ngIf="!fetching">
+  <div *ngIf="!post; else: forminfo" novalidate>
+    <form
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit(formGroup.value)"
+      class="form"
+    >
+      <mat-form-field class="form-element">
+        <mat-icon matPrefix>₹</mat-icon>
+        <input
+          matInput
+          placeholder="Amount"
+          formControlName="amount"
+          pattern="\d*"
+          autocomplete="off"
+          [(ngModel)]="amount"
+        />
+        <mat-error
+          *ngIf="
+            !formGroup.controls['amount'].valid &&
+            formGroup.controls['amount'].touched
+          "
+        >
+          {{ getErrorAmount() }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-element">
+        <mat-label>Select Source</mat-label>
+        <mat-icon matPrefix>credit_card</mat-icon>
+        <span *ngIf="balances && balances[source]" matSuffix>{{
+          balances[source] | prependStr: "₹ "
+        }}</span>
+        <mat-select [(value)]="source" formControlName="source">
+          <mat-option *ngFor="let source of sources" [value]="source">
+            {{ source }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-element">
+        <mat-label>Select Category</mat-label>
+        <mat-icon matPrefix>category</mat-icon>
+        <mat-select [(value)]="cat" formControlName="cat">
+          <mat-option *ngFor="let cat of cats" [value]="cat">
+            {{ cat }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form-element" *ngIf="cat != 'Misc.'">
+        <mat-label>Select Sub Category</mat-label>
+        <mat-icon matPrefix>scatter_plot</mat-icon>
+        <mat-select [(value)]="subCat" formControlName="subCat">
+          <mat-option *ngFor="let subCat of subCats[cat]" [value]="subCat">
+            {{ subCat }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-element" *ngIf="cat == 'Misc.'">
+        <mat-icon matPrefix>scatter_plot</mat-icon>
+        <input matInput placeholder="Sub Category" formControlName="subCat" />
+      </mat-form-field>
+
+      <mat-form-field class="form-element">
+        <mat-icon matPrefix>comment</mat-icon>
+        <textarea
+          matInput
+          placeholder="Comments"
+          matTextareaAutosize
+          formControlName="comments"
+        ></textarea>
+        <mat-error
+          *ngIf="
+            !formGroup.controls['comments'].valid &&
+            formGroup.controls['comments'].touched
+          "
+        >
+          Required field, must be between 5 and 30 characters.
+        </mat-error>
+      </mat-form-field>
+      <div class="form-element">
+        <a (click)="fileInput.click()" mat-mini-fab *ngIf="amount >= 20">
+          <mat-icon>attachment</mat-icon>
+          <input
+            #fileInput
+            type="file"
+            (change)="onFileChange($event)"
+            style="display:none;"
+          />
+        </a>
+        <span *ngIf="imgAdded">
+          <img
+            src="{{formGroup.controls['billImgUrl'].value ? formGroup.controls['billImgUrl'].value.replace('%26', '&') : ''}}"
+            width="50"
+            height="50"
+            alt=""
+            class="right"
+            [ngClass]="{
+              loadingImage: !formGroup.controls['billImgUrl'].value
+            }"
+          />
+        </span>
+      </div>
+
+      <div class="form-element">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="button"
+          [disabled]="!formGroup.valid || imgUploading"
+        >
+          {{ this.mode | uppercase }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <ng-template #forminfo>
+    <mat-list>
+      <mat-list-item>
+        <h4 mat-line>{{this.mode == 'update'? 'Updating ': 'Inserting '}} the transaction</h4>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon>₹</mat-icon>
+        <h4 mat-line>{{ post.amount }}</h4>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon>credit_card</mat-icon>
+        <h4 mat-line>{{ post.source }}</h4>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon>category</mat-icon>
+        <h4 mat-line>{{ post.cat }}</h4>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon>scatter_plot</mat-icon>
+        <h4 mat-line>{{ post.subCat }}</h4>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon>comment</mat-icon>
+        <h4 mat-line>{{ post.comments }}</h4>
+      </mat-list-item>
+      <mat-list-item *ngIf="post.billImgUrl">
+        <mat-icon mat-list-icon>image</mat-icon>
+        <img
+          src="{{ post.billImgUrl.replace('%26', '&') }}"
+          alt=""
+          width="50"
+          height="50"
+        />
+      </mat-list-item>
+    </mat-list>
+  </ng-template>
+</div>

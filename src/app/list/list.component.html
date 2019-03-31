@@ -1,0 +1,201 @@
+<mat-drawer-container class="container" autosize hasBackdrop="true">
+  <mat-drawer #drawer class="sidenav" mode="push">
+    <button
+      mat-button
+      color="warn"
+      (click)="
+        sourceFltr = '';
+        query = '';
+        dateQuery = '';
+        catFltr = '';
+        lowValue = 0;
+        highValue = 20000
+      "
+      class="right"
+    >
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <mat-form-field class="mat-form-elem">
+      <mat-icon matPrefix>search</mat-icon>
+      <input type="text" matInput placeholder="Search" [(ngModel)]="query" />
+      <button
+        mat-button
+        *ngIf="query"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="query = ''"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field class="mat-form-elem">
+      <input
+        matInput
+        [min]="minDate"
+        [max]="maxDate"
+        [matDatepicker]="picker"
+        placeholder="Date"
+        [(ngModel)]="dateQuery"
+      />
+      <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker touchUi></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="mat-form-elem">
+      <mat-label>Select Source</mat-label>
+      <mat-icon matPrefix>credit_card</mat-icon>
+      <mat-select [(value)]="sourceFltr" multiple>
+        <mat-option *ngFor="let source of sources" [value]="source.value">
+          {{ source.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="mat-form-elem">
+      <mat-label>Select Category</mat-label>
+      <mat-icon matPrefix>category</mat-icon>
+      <mat-select [(value)]="catFltr" multiple>
+        <mat-option *ngFor="let cat of cats" [value]="cat">
+          {{ cat }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="mat-form-elem custom-slider">
+      <ng5-slider
+        [(value)]="lowValue"
+        [(highValue)]="highValue"
+        [options]="options"
+      ></ng5-slider>
+    </div>
+    <mat-form-field class="mat-form-elem">
+      <mat-icon matPrefix>₹</mat-icon>
+      <input
+        type="text"
+        matInput
+        placeholder="Min."
+        [(ngModel)]="lowValue"
+        pattern="\d*"
+        autocomplete="off"
+      />
+    </mat-form-field>
+    <mat-form-field class="mat-form-elem">
+      <mat-icon matPrefix>₹</mat-icon>
+      <input
+        type="text"
+        matInput
+        placeholder="Max."
+        [(ngModel)]="highValue"
+        pattern="\d*"
+        autocomplete="off"
+      />
+    </mat-form-field>
+  </mat-drawer>
+  <div *ngIf="!transactions" class="loading">loading transactions...</div>
+
+  <ng-container
+    *ngIf="
+      transactions &&
+      (transactions.expenses
+        | reverse
+        | filter: sourceFltr:'source'
+        | filter: query:'search'
+        | filter: dateQuery:'date'
+        | filter: catFltr:'cat'
+        | filter: [lowValue, highValue]:'amount') as filteredExpenses
+    "
+  >
+    <div class="list-header">
+      <button
+        type="button"
+        mat-button
+        (click)="drawer.toggle(); drawerOpen = !drawerOpen"
+      >
+        <mat-icon>filter_list</mat-icon>
+      </button>
+
+      <button
+        mat-button
+        (click)="openBottomSheetBudgets()"
+        *ngIf="monthFltr == currMonth"
+        class="right"
+      >
+        <mat-icon>format_align_left</mat-icon>
+      </button>
+      <button mat-button color="accent">
+        Total: {{ filteredExpenses | sumAmt | prependStr: "₹ " }}
+      </button>
+      <button mat-button color="primary" *ngIf="monthFltr == currMonth">
+        Today:
+        {{
+          transactions.expenses
+            | filter: today:"date"
+            | sumAmt: "today"
+            | prependStr: "₹ "
+        }}
+      </button>
+
+      <div class="center">
+        <mat-form-field>
+          <mat-datepicker-toggle matPrefix></mat-datepicker-toggle>
+          <mat-select
+            [(value)]="monthFltr"
+            class="center"
+            (selectionChange)="getTransactions()"
+          >
+            <mat-option *ngFor="let month of pastMonths" [value]="month">
+              {{ month }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="list">
+      <div *ngFor="let transaction of filteredExpenses">
+        <mat-card
+          class="card fix-height"
+          [ngClass]="transaction[3] | lowercase"
+        >
+          <div class="full-size">
+            <mat-card-header>
+              <div
+                mat-card-avatar
+                [ngClass]="transaction[3] | lowercase | prependStr: 'avatar-'"
+              ></div>
+              <mat-card-title
+                >{{ transaction[2] | prependStr: "₹ " }}
+              </mat-card-title>
+              <mat-card-subtitle>{{
+                transaction[0] | date: "MMM dd, yyyy hh:mm"
+              }}</mat-card-subtitle>
+              <a
+                *ngIf="(transaction[0] | isToday)"
+                class="right"
+                routerLink="transactions/{{transaction[9]}}/show"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </a>
+              <a
+                *ngIf="transaction[8]"
+                class="right"
+                (click)="imgOpen(transaction[8], transaction[5])"
+              >
+                <mat-icon>receipt</mat-icon>
+              </a>
+            </mat-card-header>
+
+            <mat-card-content>
+              <mat-icon>{{ transaction[4] | iconstr }}</mat-icon>
+              <span class="card-info-str">
+                {{ transaction[1] }}
+                <mat-chip-list class="right" *ngIf="transaction[5]"
+                  ><mat-chip class="chip-color">{{
+                    transaction[5]
+                  }}</mat-chip></mat-chip-list
+                >
+              </span>
+            </mat-card-content>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </ng-container>
+</mat-drawer-container>

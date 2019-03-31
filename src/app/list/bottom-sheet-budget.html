@@ -1,0 +1,35 @@
+<div *ngIf="!budgets" classc="loading">
+  <mat-progress-bar mode="buffer"></mat-progress-bar>
+  <div class="center">Getting Budgets</div>
+  <mat-progress-bar mode="buffer"></mat-progress-bar>
+</div>
+<div *ngIf="budgets">
+  <div class="center">Budgets</div>
+  <mat-slide-toggle
+    color="accent"
+    class="right"
+    [checked]="balanceSwitch"
+    (change)="toggle($event)"
+    >{{balanceSwitch ? "Balance":"Spent &nbsp; &nbsp;" }}</mat-slide-toggle
+  >
+  <div
+    *ngFor="
+    let budget of (budgets.budgets)
+  "
+  >
+    <mat-nav-list>
+      <div mat-list-item>
+        {{budget[0]}} {{budget | percentagePipe }} %
+        <div>
+          <span>{{budget[1]}}</span>
+          <span class="right">{{balanceSwitch ? budget[3]:budget[2] }}</span>
+        </div>
+        <mat-progress-bar
+          mode="determinate"
+          value="{{budget | percentagePipe}}"
+          color="{{budget[2] > 0 ? 'primary' : 'warn'}}"
+        ></mat-progress-bar>
+      </div>
+    </mat-nav-list>
+  </div>
+</div>

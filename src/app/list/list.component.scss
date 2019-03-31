@@ -1,0 +1,107 @@
+.loading {
+  text-align: center;
+}
+.center {
+  text-align: center;
+}
+.full-size {
+  height: 85%;
+}
+
+.card {
+  display: inline-block;
+  background-color: #ffe793;
+  width: 85%;
+  margin: 10px;
+}
+
+.fix-height {
+  height: 100px;
+  min-width: 150px;
+}
+
+.hdfc,
+.icici {
+  background-color: #ffcc3d;
+}
+
+.zeta,
+.paytm {
+  background-color: #6fa8dc;
+}
+
+.cash {
+  background-color: #b7e1cd;
+}
+
+.credit {
+  background-color: #f4c7c3;
+}
+
+.mat-card-avatar {
+  background-size: cover;
+}
+
+.avatar-hdfc {
+  background-image: url("/assets/hdfc.png");
+}
+
+.avatar-icici {
+  background-image: url("/assets/icici.png");
+}
+.avatar-zeta {
+  background-image: url("/assets/zeta.png");
+}
+
+.avatar-paytm {
+  background-image: url("/assets/paytm.jpg");
+}
+
+.avatar-cash {
+  background-image: url("/assets/rupee.png");
+}
+
+.card-info-str {
+  vertical-align: super;
+}
+
+.right {
+  float: right !important;
+}
+
+.chip-color {
+  background-color: #fff;
+  color: #000;
+}
+.mat-drawer-container {
+  background-color: #fff;
+  height: 900px;
+}
+.sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidenav {
+  height: 100%;
+  padding: 20px;
+  max-width: 300px;
+}
+.mat-form-elem {
+  width: 90%;
+  padding: 10px;
+}
+
+.list-header {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+  background: #fff;
+}
+.list {
+  position: absolute;
+  top: 120px;
+  width: 100%;
+}
