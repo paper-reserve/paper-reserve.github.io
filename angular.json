@@ -31,7 +31,7 @@
               "src/lightbox.css"
             ],
             "scripts": [
-              "../node_modules/moment/min/moment.min.js"
+              "./node_modules/moment/min/moment.min.js"
             ],
             "es5BrowserSupport": true
           },
