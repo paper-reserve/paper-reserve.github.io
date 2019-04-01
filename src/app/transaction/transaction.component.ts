@@ -3,7 +3,8 @@ import { DataService } from "../services/data.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import * as moment from "moment";
 import { LocalStorage } from "@ngx-pwa/local-storage";
-
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { MatChipInputEvent } from "@angular/material";
 import {
   FormBuilder,
   FormGroup,
@@ -11,13 +12,34 @@ import {
   Validators
 } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
-
 @Component({
   selector: "app-transaction",
   templateUrl: "./transaction.component.html",
   styleUrls: ["./transaction.component.scss"]
 })
 export class TransactionComponent {
+  visible = true;
+  selectable = true;
+  removable = true;
+  addOnBlur = true;
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  comments: string[] = [];
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+    if ((value || "").trim()) {
+      this.comments.push(value.trim());
+    }
+    if (input) {
+      input.value = "";
+    }
+  }
+  remove(comment: string): void {
+    const index = this.comments.indexOf(comment);
+    if (index >= 0) {
+      this.comments.splice(index, 1);
+    }
+  }
   post: any;
   formGroup: FormGroup;
   imgUploading = false;
@@ -122,7 +144,8 @@ export class TransactionComponent {
   getSetTransaction(id) {
     this.fetching = true;
     this.data.getTransaction(id).subscribe(data => {
-      this.transaction = data.split(",");
+      this.transaction = data
+      this.transaction = this.transaction.row_data[0];
       this.fetching = false;
       this.mode = "update";
       let transaction = this.transaction;
@@ -136,13 +159,14 @@ export class TransactionComponent {
         cat: [transaction[4], [Validators.required]],
         subCat: [transaction[1], [Validators.required]],
         comments: [
-          transaction[5],
+          null,
           [Validators.minLength(2), Validators.maxLength(30)]
         ],
         billImgUrl: []
       });
       this.cat = transaction[4];
       this.amount = transaction[2];
+      this.comments=transaction[5].split(',');
     });
   }
 
@@ -212,9 +236,12 @@ export class TransactionComponent {
   onSubmit(post) {
     this.post = post;
     post.location = this.geoLocation;
-    this.data.writeTransaction(post,this.mode, this.trans_id).subscribe(data => {
-      this.checkBalance();
-      this.router.navigate(["/"]);
-    });
+    post.comments = this.comments;
+    this.data
+      .writeTransaction(post, this.mode, this.trans_id)
+      .subscribe(data => {
+        this.checkBalance();
+        this.router.navigate(["/"]);
+      });
   }
 }

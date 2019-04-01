@@ -23,7 +23,8 @@ export class ActionComponent implements OnInit {
   }
   getTransaction(id) {
     this.data.getTransaction(id).subscribe(data => {
-      this.transaction = data.split(",");
+      this.transaction = data
+      this.transaction = this.transaction.row_data[0];
     });
   }
   delTran(id) {

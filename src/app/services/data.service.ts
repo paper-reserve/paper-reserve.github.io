@@ -17,13 +17,7 @@ export class DataService {
   getTransaction(id) {
     let ACTION_URL =
       "https://script.google.com/macros/s/AKfycbwclNzWz4lXRs_LyFGoW_maBzNcC52FonDOrsTMJ9n4ed20nk0/exec";
-    return this.http.get(
-      "https://script.google.com/macros/s/AKfycbwclNzWz4lXRs_LyFGoW_maBzNcC52FonDOrsTMJ9n4ed20nk0/exec" +
-        "?id=" +
-        id +
-        "&actionName=SHOW",
-      { responseType: "text" }
-    );
+    return this.http.get(ACTION_URL + "?id=" + id + "&actionName=SHOW");
   }
 
   delTransaction(id) {
@@ -43,7 +37,7 @@ export class DataService {
       "https://script.google.com/macros/s/AKfycbxb2XVYjTfM9CYNEvlpOHmj5QIR_-t3utN4gBMLwf1WLUNhPIs/exec";
     return this.http.get(BUDGET_URL);
   }
-  writeTransaction(post,mode,trans_id) {
+  writeTransaction(post, mode, trans_id) {
     var data = [
       post.subCat,
       post.amount,

@@ -61,23 +61,27 @@
         <mat-icon matPrefix>scatter_plot</mat-icon>
         <input matInput placeholder="Sub Category" formControlName="subCat" />
       </mat-form-field>
-
       <mat-form-field class="form-element">
         <mat-icon matPrefix>comment</mat-icon>
-        <textarea
-          matInput
-          placeholder="Comments"
-          matTextareaAutosize
-          formControlName="comments"
-        ></textarea>
-        <mat-error
-          *ngIf="
-            !formGroup.controls['comments'].valid &&
-            formGroup.controls['comments'].touched
-          "
-        >
-          Required field, must be between 5 and 30 characters.
-        </mat-error>
+        <mat-chip-list #chipList aria-label="Comments">
+          <mat-chip
+            *ngFor="let comment of comments"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(comment)"
+          >
+            {{ comment }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            formControlName="comments"
+            placeholder="Comments"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-list>
       </mat-form-field>
       <div class="form-element">
         <a (click)="fileInput.click()" mat-mini-fab *ngIf="amount >= 20">
@@ -102,7 +106,6 @@
           />
         </span>
       </div>
-
       <div class="form-element">
         <button
           mat-raised-button
@@ -120,7 +123,10 @@
   <ng-template #forminfo>
     <mat-list>
       <mat-list-item>
-        <h4 mat-line>{{this.mode == 'update'? 'Updating ': 'Inserting '}} the transaction</h4>
+        <h4 mat-line>
+          {{ this.mode == "update" ? "Updating " : "Inserting " }} the
+          transaction
+        </h4>
       </mat-list-item>
       <mat-list-item>
         <mat-icon mat-list-icon>₹</mat-icon>
