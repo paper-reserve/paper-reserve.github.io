@@ -118,6 +118,32 @@
         </button>
       </div>
     </form>
+    <div class="fab-container">
+      <button
+        mat-mini-fab
+        class="fab-toggler"
+        (click)="onToggleFab()"
+        color="primary"
+      >
+        <i class="material-icons" [@fabToggler]="{ value: fabTogglerState }"
+          >bubble_chart</i
+        >
+      </button>
+
+      <div
+        [@speedDialStagger]="suggestions.length"
+        *ngFor="let suggestion of suggestions"
+      >
+        <button
+          mat-mini-fab
+          (click)="suggClick(suggestion)"
+          class="fab-secondary"
+          [ngStyle]="{ 'background-color': suggDetails[suggestion][4] }"
+        >
+          {{ suggDetails[suggestion][3] }}
+        </button>
+      </div>
+    </div>
   </div>
 
   <ng-template #forminfo>

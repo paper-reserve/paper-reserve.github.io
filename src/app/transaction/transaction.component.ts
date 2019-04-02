@@ -5,6 +5,9 @@ import * as moment from "moment";
 import { LocalStorage } from "@ngx-pwa/local-storage";
 import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { MatChipInputEvent } from "@angular/material";
+import { formConsts } from "../consts/form.consts";
+import { navAnimations } from "../nav/nav.animations";
+
 import {
   FormBuilder,
   FormGroup,
@@ -15,13 +18,47 @@ import { Observable } from "rxjs/Observable";
 @Component({
   selector: "app-transaction",
   templateUrl: "./transaction.component.html",
-  styleUrls: ["./transaction.component.scss"]
+  styleUrls: ["./transaction.component.scss"],
+  animations: navAnimations
 })
 export class TransactionComponent {
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
+  fabTogglerState = "inactive";
+  fabSuggestions = [];
+  suggestions = [];
+  suggDetails = formConsts.SUGGESTIONS;
+  showItems() {
+    this.fabTogglerState = "active";
+    this.suggestions = this.fabSuggestions;
+  }
+
+  hideItems() {
+    this.fabTogglerState = "inactive";
+    this.suggestions = [];
+  }
+  onToggleFab() {
+    this.suggestions.length ? this.hideItems() : this.showItems();
+  }
+  suggClick(suggestion) {
+    let sugg = this.suggDetails[suggestion];
+    this.formGroup.setValue({
+      amount: null,
+      source: sugg[0],
+      cat: sugg[1],
+      subCat: sugg[2],
+      comments: null,
+      billImgUrl: null
+    });
+    this.cat = sugg[1];
+    if (sugg[5]) {
+      this.comments = [sugg[5]];
+    } else {
+      this.comments = null;
+    }
+  }
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   comments: string[] = [];
   add(event: MatChipInputEvent): void {
@@ -127,6 +164,11 @@ export class TransactionComponent {
   ) {}
 
   ngOnInit() {
+    let day = moment().day();
+    let hour = moment().hour();
+    let key = day == 0 || day == 6 ? "WE" + hour : hour;
+    this.fabSuggestions = formConsts.TIMELY_SUGGESTIONS[key];
+    this.fabSuggestions.push("Reset");
     this.trans_id = this.route.snapshot.params["id"];
     if (this.trans_id) {
       this.getSetTransaction(this.trans_id);
@@ -144,7 +186,7 @@ export class TransactionComponent {
   getSetTransaction(id) {
     this.fetching = true;
     this.data.getTransaction(id).subscribe(data => {
-      this.transaction = data
+      this.transaction = data;
       this.transaction = this.transaction.row_data[0];
       this.fetching = false;
       this.mode = "update";
@@ -158,15 +200,12 @@ export class TransactionComponent {
         source: [transaction[3], [Validators.required]],
         cat: [transaction[4], [Validators.required]],
         subCat: [transaction[1], [Validators.required]],
-        comments: [
-          null,
-          [Validators.minLength(2), Validators.maxLength(30)]
-        ],
+        comments: [null, [Validators.minLength(2), Validators.maxLength(30)]],
         billImgUrl: []
       });
       this.cat = transaction[4];
       this.amount = transaction[2];
-      this.comments=transaction[5].split(',');
+      this.comments = transaction[5].split(",");
     });
   }
 
