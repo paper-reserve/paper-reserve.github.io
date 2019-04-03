@@ -1,4 +1,69 @@
 export const formConsts = {
+  SOURCES: [
+    "Cash",
+    "HDFC",
+    "ICICI",
+    "ICICI Credit",
+    "HDFC Credit",
+    "Zeta",
+    "Paytm"
+  ],
+  CATEGORIES: [
+    "Food",
+    "Shopping",
+    "Travel",
+    "Entertainment",
+    "Payments",
+    "Misc.",
+    "Transactions"
+  ],
+  SUBCATS: {
+    Food: ["Tea/Coffee", "Street Food", "Restaurants", "Snacks"],
+    Shopping: [
+      "Groceries",
+      "Cosmetics",
+      "Medicine",
+      "Dress",
+      "Accessories",
+      "Household"
+    ],
+    Travel: [
+      "Bus",
+      "Auto",
+      "Cab",
+      "Train",
+      "Fuel",
+      "Toll",
+      "Parking",
+      "Air",
+      "Service"
+    ],
+    Entertainment: ["Movie", "Tour"],
+    Payments: [
+      "Rent",
+      "Car Loan",
+      "ICICI Due Repay",
+      "HDFC Due Repay",
+      "Chit",
+      "RD",
+      "Phone Bill",
+      "EB Bill",
+      "Cable TV",
+      "Maintenance",
+      "Gas",
+      "iWish"
+    ],
+    Transactions: [
+      "Cash Withdraw",
+      "To ICICI",
+      "To HDFC",
+      "To Paytm",
+      "Savings",
+      "WHC",
+      "To Home"
+    ],
+    "Misc.": []
+  },
   TIMELY_SUGGESTIONS: {
     "6": ["Milk", "Coffee"],
     "7": ["Milk", "Coffee", "Vegtables"],

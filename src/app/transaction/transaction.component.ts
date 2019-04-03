@@ -22,45 +22,11 @@ import { Observable } from "rxjs/Observable";
   animations: navAnimations
 })
 export class TransactionComponent {
-  visible = true;
+  // mat chip variables
   selectable = true;
   removable = true;
   addOnBlur = true;
-  fabTogglerState = "inactive";
-  fabSuggestions = [];
-  suggestions = [];
-  suggDetails = formConsts.SUGGESTIONS;
-  showItems() {
-    this.fabTogglerState = "active";
-    this.suggestions = this.fabSuggestions;
-  }
-
-  hideItems() {
-    this.fabTogglerState = "inactive";
-    this.suggestions = [];
-  }
-  onToggleFab() {
-    this.suggestions.length ? this.hideItems() : this.showItems();
-  }
-  suggClick(suggestion) {
-    let sugg = this.suggDetails[suggestion];
-    this.formGroup.setValue({
-      amount: null,
-      source: sugg[0],
-      cat: sugg[1],
-      subCat: sugg[2],
-      comments: null,
-      billImgUrl: null
-    });
-    this.cat = sugg[1];
-    if (sugg[5]) {
-      this.comments = [sugg[5]];
-    } else {
-      this.comments = null;
-    }
-  }
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  comments: string[] = [];
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -77,84 +43,64 @@ export class TransactionComponent {
       this.comments.splice(index, 1);
     }
   }
+
+  // fab suggestions
+  fabTogglerState = "inactive";
+  fabSuggestions = [];
+  suggestions = [];
+  suggDetails = formConsts.SUGGESTIONS;
+  showSuggestions() {
+    this.fabTogglerState = "active";
+    this.suggestions = this.fabSuggestions;
+  }
+
+  hideSuggestions() {
+    this.fabTogglerState = "inactive";
+    this.suggestions = [];
+  }
+  onToggleFab() {
+    this.suggestions.length ? this.hideSuggestions() : this.showSuggestions();
+  }
+  suggClick(suggestion) {
+    this.onToggleFab();
+    let sugg = this.suggDetails[suggestion];
+    this.formGroup.setValue({
+      amount: null,
+      source: sugg[0],
+      cat: sugg[1],
+      subCat: sugg[2],
+      comments: [sugg[5]],
+      billImgUrl: null
+    });
+    this.cat = sugg[1];
+    // if (sugg[5]) {
+    //   this.comments = [sugg[5]];
+    // } else {
+    //   this.comments = [];
+    // }
+  }
+
+  // FORM
   post: any;
   formGroup: FormGroup;
   imgUploading = false;
   imageRespone: any;
   imgAdded = false;
   balances: any;
-  sources = [
-    "Cash",
-    "HDFC",
-    "ICICI",
-    "ICICI Credit",
-    "HDFC Credit",
-    "Zeta",
-    "Paytm"
-  ];
-  cats = [
-    "Food",
-    "Shopping",
-    "Travel",
-    "Entertainment",
-    "Payments",
-    "Misc.",
-    "Transactions"
-  ];
-  subCats = {
-    Food: ["Tea/Coffee", "Street Food", "Restaurants", "Snacks"],
-    Shopping: [
-      "Groceries",
-      "Cosmetics",
-      "Medicine",
-      "Dress",
-      "Accessories",
-      "Household"
-    ],
-    Travel: [
-      "Bus",
-      "Auto",
-      "Cab",
-      "Train",
-      "Fuel",
-      "Toll",
-      "Parking",
-      "Air",
-      "Service"
-    ],
-    Entertainment: ["Movie", "Tour"],
-    Payments: [
-      "Rent",
-      "Car Loan",
-      "ICICI Due Repay",
-      "HDFC Due Repay",
-      "Chit",
-      "RD",
-      "Phone Bill",
-      "EB Bill",
-      "Cable TV",
-      "Maintenance",
-      "Gas",
-      "iWish"
-    ],
-    Transactions: [
-      "Cash Withdraw",
-      "To ICICI",
-      "To HDFC",
-      "To Paytm",
-      "Savings",
-      "WHC",
-      "To Home"
-    ],
-    "Misc.": []
-  };
+  sources = formConsts.SOURCES;
+  cats = formConsts.CATEGORIES;
+  subCats = formConsts.SUBCATS;
+  comments: string[] = [];
   geoLocation: any;
+  cat;
+  amount;
+
+  // edit form
   trans_id;
   transaction;
   fetching = false;
   mode = "create";
-  cat;
-  amount;
+
   constructor(
     private data: DataService,
     private formBuilder: FormBuilder,
@@ -164,24 +110,37 @@ export class TransactionComponent {
   ) {}
 
   ngOnInit() {
-    let day = moment().day();
-    let hour = moment().hour();
-    let key = day == 0 || day == 6 ? "WE" + hour : hour;
-    this.fabSuggestions = formConsts.TIMELY_SUGGESTIONS[key];
-    this.fabSuggestions.push("Reset");
+    this.editCheck();
+    this.setSuggestions();
+    this.createForm();
+    this.getGeoLoc();
+    this.getBalance();
+  }
+
+  editCheck() {
     this.trans_id = this.route.snapshot.params["id"];
     if (this.trans_id) {
       this.getSetTransaction(this.trans_id);
     }
-    this.createForm();
+  }
+  getBalance() {
+    this.localStorage.getItem("balance").subscribe(balances => {
+      this.balances = balances;
+    });
+  }
+  getGeoLoc() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
     } else {
       console.log("Geo location is not supported by this browser.");
     }
-    this.localStorage.getItem("balance").subscribe(balances => {
-      this.balances = balances;
-    });
+  }
+  setSuggestions() {
+    let day = moment().day();
+    let hour = moment().hour();
+    let key = day == 0 || day == 6 ? "WE" + hour : hour;
+    this.fabSuggestions = Object.assign([], formConsts.TIMELY_SUGGESTIONS[key]);
+    this.fabSuggestions.push("Reset");
   }
   getSetTransaction(id) {
     this.fetching = true;
@@ -200,7 +159,7 @@ export class TransactionComponent {
         source: [transaction[3], [Validators.required]],
         cat: [transaction[4], [Validators.required]],
         subCat: [transaction[1], [Validators.required]],
-        comments: [null, [Validators.minLength(2), Validators.maxLength(30)]],
+        comments: [null, []],
         billImgUrl: []
       });
       this.cat = transaction[4];
@@ -247,8 +206,33 @@ export class TransactionComponent {
       source: [null, [Validators.required]],
       cat: [null, [Validators.required]],
       subCat: [null, [Validators.required]],
-      comments: [null, [Validators.minLength(2), Validators.maxLength(30)]],
+      comments: [null, []],
       billImgUrl: []
+    });
+    this.localStorage.getItem("unSubmittedForm").subscribe(unSubmittedForm => {
+      if(unSubmittedForm){
+      this.formGroup = this.formBuilder.group({
+        amount: [unSubmittedForm.amount, [Validators.required, Validators.pattern(amountRegex)]],
+        source: [unSubmittedForm.source, [Validators.required]],
+        cat: [unSubmittedForm.cat, [Validators.required]],
+        subCat: [unSubmittedForm.subCat, [Validators.required]],
+        comments: [[unSubmittedForm.comments], []],
+        billImgUrl: []
+      });
+      this.cat = unSubmittedForm.cat;
+      // if (unSubmittedForm.comments) {
+      //   this.comments = [unSubmittedForm.comments];
+      // } else {
+      //   this.comments = null;
+      // }
+      }
+      this.formChanges();
+    });
+  }
+
+  formChanges(): void {
+    this.formGroup.valueChanges.subscribe(values => {
+      this.localStorage.setItem("unSubmittedForm", values).subscribe(() => {});
     });
   }
 
@@ -280,7 +264,8 @@ export class TransactionComponent {
       .writeTransaction(post, this.mode, this.trans_id)
       .subscribe(data => {
         this.checkBalance();
-        this.router.navigate(["/"]);
+        this.localStorage.removeItem("unSubmittedForm").subscribe(() => {});
+        this.router.navigate(["/transactions"]);
       });
   }
 }

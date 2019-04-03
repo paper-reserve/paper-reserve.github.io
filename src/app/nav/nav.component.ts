@@ -14,11 +14,11 @@ export class NavComponent implements OnInit {
   fabButtons = [
     {
       icon: "playlist_add",
-      link: "/add"
+      link: "/"
     },
     {
       icon: "list",
-      link: "/"
+      link: "/transactions"
     },
     {
       icon: "account_balance_wallet"
