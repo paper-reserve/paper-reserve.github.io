@@ -6,12 +6,17 @@ import * as moment from "moment";
   providedIn: "root"
 })
 export class DataService {
+  MAP_URL =
+    "https://script.google.com/macros/s/AKfycbzqbIwv3mExSH1I_kq3QiTiTvD85rXgI7uEWYnkjbe3JGJsnB0/exec";
+
   constructor(private http: HttpClient) {}
 
   getTransactions(month) {
+    return this.http.get(this.MAP_URL + "?isMap=true&sheet=" + month);
+  }
+  getMapTransactions() {
     return this.http.get(
-      "https://script.google.com/macros/s/AKfycbzqbIwv3mExSH1I_kq3QiTiTvD85rXgI7uEWYnkjbe3JGJsnB0/exec?isMap=true&sheet=" +
-        month
+      this.MAP_URL + "?isMap=true&sheet=" + moment().format("MMMM YYYY")
     );
   }
   getTransaction(id) {

@@ -21,6 +21,10 @@ export class NavComponent implements OnInit {
       link: "/transactions"
     },
     {
+      icon: "map",
+      link: "/gmap"
+    },
+    {
       icon: "account_balance_wallet"
     }
   ];

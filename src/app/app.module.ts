@@ -27,6 +27,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./material.module";
 import { Ng5SliderModule } from 'ng5-slider';
 import { ActionComponent } from './action/action.component';
+import { GmapComponent } from './gmap/gmap.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ActionComponent } from './action/action.component';
     PercentagePipe,
     IsTodayPipe,
     TransactionComponent,
-    ActionComponent
+    ActionComponent,
+    GmapComponent
   ],
   entryComponents: [BottomSheetBudget],
   imports: [
