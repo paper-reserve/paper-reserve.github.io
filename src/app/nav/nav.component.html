@@ -8,6 +8,12 @@
     <i class="material-icons" [@fabToggler]="{ value: fabTogglerState }"
       >apps</i
     >
+    <mat-spinner
+      [diameter]="32"
+      [strokeWidth]="2"
+      class="loading"
+      *ngIf="loading"
+    ></mat-spinner>
   </button>
 
   <div [@speedDialStagger]="buttons.length" *ngFor="let btn of buttons">
@@ -34,9 +40,14 @@
       </a>
     </button>
   </div>
-  <div [@speedDialStagger]="chips.length" *ngFor="let chip of chips | reverse">
-    <mat-chip-list *ngFor="let data of chip | keyvalue">
-      <mat-chip [ngClass]="data.key | lowercase">{{data.key}}: {{data.value | prependStr: ' ₹ '}}</mat-chip>
+  <div
+    [@speedDialStagger]="chips.length"
+    *ngFor="let chip of (chips | reverse)"
+  >
+    <mat-chip-list *ngFor="let data of (chip | keyvalue)">
+      <mat-chip [ngClass]="data.key | lowercase"
+        >{{ data.key }}: {{ data.value | prependStr: " ₹ " }}</mat-chip
+      >
     </mat-chip-list>
   </div>
 </div>

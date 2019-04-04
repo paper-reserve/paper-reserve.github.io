@@ -10,7 +10,7 @@ import { DataService } from "../services/data.service";
   animations: navAnimations
 })
 export class NavComponent implements OnInit {
-  appTitle = "Transactions";
+  loading = false;
   fabButtons = [
     {
       icon: "playlist_add",
@@ -49,6 +49,7 @@ export class NavComponent implements OnInit {
   }
 
   checkBalance() {
+    this.loading = true;
     this.data.getBalance().subscribe(balances => {
       let result = {};
       this.chips = [];
@@ -59,6 +60,7 @@ export class NavComponent implements OnInit {
         let tmp = {};
         tmp[key] = result[key] = value;
         this.chips.push(tmp);
+        this.loading = false;
       }
       this.localStorage.setItem("balance", result).subscribe(() => {});
     });
