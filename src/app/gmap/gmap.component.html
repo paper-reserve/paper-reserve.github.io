@@ -1,2 +1,16 @@
 <mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
+<div class="center gmap-month">
+  <mat-form-field>
+    <mat-datepicker-toggle matPrefix></mat-datepicker-toggle>
+    <mat-select
+      [(value)]="monthFltr"
+      class="center"
+      (selectionChange)="getMapTransactions()"
+    >
+      <mat-option *ngFor="let month of pastMonths" [value]="month">
+        {{ month }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
 <div #map class="gmap"></div>

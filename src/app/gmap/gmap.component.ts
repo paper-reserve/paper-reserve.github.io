@@ -30,16 +30,33 @@ export class GmapComponent implements OnInit {
     "HDFC Credit": "#ef5350",
     "ICICI Credit": "#ef5350"
   };
+  pastMonths = [];
+  monthFltr = moment().format("MMMM YYYY");
+  currMonth = moment().format("MMMM YYYY");
+  today = moment();
   @ViewChild("map") mapRef: ElementRef;
   constructor(private data: DataService) {}
 
   ngOnInit() {
     this.getMapTransactions();
+    this.setMonthSelector();
+  }
+  setMonthSelector() {
+    let maxPastMonth = "May 2018";
+    let monthCount = 0;
+    let month = this.monthFltr;
+    while (month != maxPastMonth) {
+      this.pastMonths.push(month);
+      monthCount++;
+      month = moment()
+        .subtract(monthCount, "months")
+        .format("MMMM YYYY");
+    }
   }
   getMapTransactions() {
     this.loading = true;
     this.transactions = null;
-    this.data.getMapTransactions().subscribe(data => {
+    this.data.getMapTransactions(this.monthFltr).subscribe(data => {
       this.transactions = data;
       this.locations = [];
       this.transactions.expenses

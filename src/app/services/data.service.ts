@@ -14,10 +14,8 @@ export class DataService {
   getTransactions(month) {
     return this.http.get(this.MAP_URL + "?isMap=true&sheet=" + month);
   }
-  getMapTransactions() {
-    return this.http.get(
-      this.MAP_URL + "?isMap=true&sheet=" + moment().format("MMMM YYYY")
-    );
+  getMapTransactions(month) {
+    return this.http.get(this.MAP_URL + "?isMap=true&sheet=" + month);
   }
   getTransaction(id) {
     let ACTION_URL =
