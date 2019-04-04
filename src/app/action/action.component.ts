@@ -9,6 +9,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 export class ActionComponent implements OnInit {
   id;
   transaction;
+  loading = false;
   constructor(
     private data: DataService,
     private route: ActivatedRoute,
@@ -28,8 +29,10 @@ export class ActionComponent implements OnInit {
     });
   }
   delTran(id) {
+    this.loading = true;
     this.data.delTransaction(id).subscribe(data => {
-      this.router.navigate(["/"]);
+      this.loading = false;
+      this.router.navigate(["/transactions"]);
     });
   }
 }

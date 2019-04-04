@@ -89,8 +89,7 @@
       />
     </mat-form-field>
   </mat-drawer>
-  <div *ngIf="!transactions" class="loading">loading transactions...</div>
-
+  <mat-progress-bar mode="query" *ngIf="!transactions"></mat-progress-bar>
   <ng-container
     *ngIf="
       transactions &&
@@ -167,7 +166,6 @@
                 transaction[0] | date: "MMM dd, yyyy hh:mm"
               }}</mat-card-subtitle>
               <a
-                *ngIf="(transaction[0] | isToday)"
                 class="right"
                 routerLink="/transactions/{{transaction[9]}}/show"
               >
@@ -191,7 +189,7 @@
                     class="chip-color"
                     *ngFor="let comment of transaction[5].split(',')"
                   >
-                    {{comment}}
+                    {{ comment }}
                   </mat-chip></mat-chip-list
                 >
               </span>

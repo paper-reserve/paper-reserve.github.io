@@ -147,6 +147,7 @@
   </div>
 
   <ng-template #forminfo>
+    <mat-progress-bar mode="query"></mat-progress-bar>
     <mat-list>
       <mat-list-item>
         <h4 mat-line>
@@ -186,3 +187,4 @@
     </mat-list>
   </ng-template>
 </div>
+<mat-progress-bar mode="query" *ngIf="fetching"></mat-progress-bar>

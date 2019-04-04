@@ -1,4 +1,5 @@
-<div class="center" *ngIf="!transaction"><h4>Loading transaction</h4></div>
+<mat-progress-bar mode="query" *ngIf="!transaction"></mat-progress-bar>
+<mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
 <mat-list *ngIf="transaction">
   <mat-list-item>
     <mat-icon mat-list-icon>₹</mat-icon>
@@ -20,7 +21,7 @@
     <mat-icon mat-list-icon>comment</mat-icon>
     <h4 mat-line>{{ transaction[5] }}</h4>
   </mat-list-item>
-  <mat-list-item>
+  <mat-list-item *ngIf="(transaction[0] | isToday)">
     <button mat-button (click)="delTran(id)">
       <mat-icon color="warn" (click)="delTran(id)">delete</mat-icon>
     </button>
