@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1554435200821,
+  "timestamp": 1554436237487,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -17,7 +17,12 @@
         "/scripts.4d10c1b333ada0ab6568.js",
         "/styles.4e3474be7e6da834a70d.css"
       ],
-      "patterns": []
+      "patterns": [
+        "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Material\\+Icons",
+        "https:\\/\\/fonts\\.googleapis\\.com\\/icon\\?family=Material\\+Icons",
+        "https:\\/\\/fonts\\.gstatic\\.com\\/s\\/materialicons\\/v29\\/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw\\.woff2",
+        "https:\\/\\/fonts\\.googleapis\\.com\\/css\\?family=Iceberg"
+      ]
     },
     {
       "name": "assets",
