@@ -1,0 +1,98 @@
+{
+  "configVersion": 1,
+  "timestamp": 1554433593889,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/es2015-polyfills.1e04665e16f944715fd2.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main.89ede3c45b8abb06284f.js",
+        "/polyfills.8bbb231b43165d65d357.js",
+        "/runtime.26209474bfa8dc87a77c.js",
+        "/scripts.4d10c1b333ada0ab6568.js",
+        "/styles.ff0540d7509b6844bbb5.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/assets/close.png",
+        "/assets/hdfc.png",
+        "/assets/icici.png",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/launch.png",
+        "/assets/loadingImage.svg",
+        "/assets/next.png",
+        "/assets/paytm.jpg",
+        "/assets/prev.png",
+        "/assets/rupee-white.png",
+        "/assets/rupee.png",
+        "/assets/zeta.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/close.png": "3ca48361cfe0e41163023d03c26296f375bb3eac",
+    "/assets/hdfc.png": "38359abb09b2f1cc9dea41e7ec8f2026aed20a8a",
+    "/assets/icici.png": "a847ce0072e49193d6f20c9240a790f110676d2e",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/launch.png": "a5ce676dce7fe86aca564e7d636869363621a312",
+    "/assets/loadingImage.svg": "cc18f0c37c7c5c872121cc62bdc24ae885a52c6d",
+    "/assets/next.png": "777e92c050f600b4519299c3d786b8f2f459fea4",
+    "/assets/paytm.jpg": "162e18f385d830cecf3d5ee5990c5822ee77e274",
+    "/assets/prev.png": "6640a3432f7ba7aea6129cdf7a5d3eabd47c295c",
+    "/assets/rupee-white.png": "77a48ce5d73d780f27e4c7f6e3f9ca8e83fc5e77",
+    "/assets/rupee.png": "e67b84e60c90f04992dc6b162bd7c51bfb4728ae",
+    "/assets/zeta.png": "772d4e1eb31b753a8e6aec61fb46b29c369f98c4",
+    "/es2015-polyfills.1e04665e16f944715fd2.js": "b7a81c61d32b0b12737f0c13f45973ba391cd7f9",
+    "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+    "/index.html": "b5e65b0033d662971b0f62ac7cb519c49a9bd9d9",
+    "/main.89ede3c45b8abb06284f.js": "07ae35a5a3ad6f6104f1e3f13f53694cab183202",
+    "/polyfills.8bbb231b43165d65d357.js": "ffa449995bf2eba2ccd0a002417214f7eb75e7b5",
+    "/runtime.26209474bfa8dc87a77c.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
+    "/scripts.4d10c1b333ada0ab6568.js": "d575e1f756ad982bc7aeee72deb2f8b36b3eb2b3",
+    "/styles.ff0540d7509b6844bbb5.css": "2000ea271ba1b52313a75dcf607dc53f976c8253"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}
