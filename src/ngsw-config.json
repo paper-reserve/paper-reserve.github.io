@@ -9,10 +9,20 @@
           "/favicon.ico",
           "/index.html",
           "/*.css",
-          "/*.js"
+          "/*.js",
+          "/*.woff",
+          "/*.woff2",
+          "/*.ttf"
+        ],
+        "urls": [
+          "https://fonts.googleapis.com/css?family=Material+Icons",
+          "https://fonts.googleapis.com/icon?family=Material+Icons",
+          "https://fonts.gstatic.com/s/materialicons/v29/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw.woff2",
+          "https://fonts.googleapis.com/css?family=Iceberg"
         ]
       }
-    }, {
+    },
+    {
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
