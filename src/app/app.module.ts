@@ -28,6 +28,8 @@ import { MaterialModule } from "./material.module";
 import { Ng5SliderModule } from 'ng5-slider';
 import { ActionComponent } from './action/action.component';
 import { GmapComponent } from './gmap/gmap.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -57,7 +59,8 @@ import { GmapComponent } from './gmap/gmap.component';
     BrowserAnimationsModule,
     MaterialModule,
     Ng5SliderModule,
-    LightboxModule
+    LightboxModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [],
   bootstrap: [AppComponent]
