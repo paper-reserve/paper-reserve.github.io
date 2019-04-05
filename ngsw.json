@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1554443476153,
+  "timestamp": 1554487212963,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -56,14 +56,26 @@
     {
       "name": "api-freshness",
       "patterns": [
-        "https:\\/\\/script\\.google\\.com\\/macros\\/s\\/AKfycbzqbIwv3mExSH1I_kq3QiTiTvD85rXgI7uEWYnkjbe3JGJsnB0\\/exec\\?[^/]*[^/]*",
-        "https:\\/\\/script\\.google\\.com\\/macros\\/s\\/AKfycbwiLibhxusQjgb4yl_3ue0_wY_NojiSRQI1KZOu7HZXMapFO2k\\/exec",
-        "https:\\/\\/script\\.google\\.com\\/macros\\/s\\/AKfycbxb2XVYjTfM9CYNEvlpOHmj5QIR_-t3utN4gBMLwf1WLUNhPIs\\/exec"
+        "\\/script\\.google\\.com\\/macros\\/s\\/AKfycbzqbIwv3mExSH1I_kq3QiTiTvD85rXgI7uEWYnkjbe3JGJsnB0\\/exec",
+        "\\/script\\.google\\.com\\/macros\\/s\\/AKfycbwiLibhxusQjgb4yl_3ue0_wY_NojiSRQI1KZOu7HZXMapFO2k\\/exec",
+        "\\/script\\.google\\.com\\/macros\\/s\\/AKfycbxb2XVYjTfM9CYNEvlpOHmj5QIR_-t3utN4gBMLwf1WLUNhPIs\\/exec"
       ],
       "strategy": "freshness",
       "maxSize": 100,
       "maxAge": 259200000,
       "timeoutMs": 15000,
+      "version": 1
+    },
+    {
+      "name": "dropbox-api",
+      "patterns": [
+        "\\/!\\/(?:.+\\/)?[^/]*create_shared_link_with_settings",
+        "\\/![^/]*[^/]*\\/[^/]*upload"
+      ],
+      "strategy": "freshness",
+      "maxSize": 0,
+      "maxAge": 0,
+      "timeoutMs": 0,
       "version": 1
     }
   ],
