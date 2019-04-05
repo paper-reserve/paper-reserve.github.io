@@ -1,5 +1,21 @@
 {
   "index": "/index.html",
+  "dataGroups": [
+    {
+      "name": "api-freshness",
+      "urls": [
+        "https://script.google.com/macros/s/AKfycbzqbIwv3mExSH1I_kq3QiTiTvD85rXgI7uEWYnkjbe3JGJsnB0/exec?**",
+        "https://script.google.com/macros/s/AKfycbwiLibhxusQjgb4yl_3ue0_wY_NojiSRQI1KZOu7HZXMapFO2k/exec",
+        "https://script.google.com/macros/s/AKfycbxb2XVYjTfM9CYNEvlpOHmj5QIR_-t3utN4gBMLwf1WLUNhPIs/exec"
+      ],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 100,
+        "maxAge": "3d",
+        "timeout": "15s"
+      }
+    }
+  ],
   "assetGroups": [
     {
       "name": "app",
