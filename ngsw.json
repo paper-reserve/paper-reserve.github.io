@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1554436237487,
+  "timestamp": 1554443476153,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -52,7 +52,21 @@
       "patterns": []
     }
   ],
-  "dataGroups": [],
+  "dataGroups": [
+    {
+      "name": "api-freshness",
+      "patterns": [
+        "https:\\/\\/script\\.google\\.com\\/macros\\/s\\/AKfycbzqbIwv3mExSH1I_kq3QiTiTvD85rXgI7uEWYnkjbe3JGJsnB0\\/exec\\?[^/]*[^/]*",
+        "https:\\/\\/script\\.google\\.com\\/macros\\/s\\/AKfycbwiLibhxusQjgb4yl_3ue0_wY_NojiSRQI1KZOu7HZXMapFO2k\\/exec",
+        "https:\\/\\/script\\.google\\.com\\/macros\\/s\\/AKfycbxb2XVYjTfM9CYNEvlpOHmj5QIR_-t3utN4gBMLwf1WLUNhPIs\\/exec"
+      ],
+      "strategy": "freshness",
+      "maxSize": 100,
+      "maxAge": 259200000,
+      "timeoutMs": 15000,
+      "version": 1
+    }
+  ],
   "hashTable": {
     "/assets/close.png": "3ca48361cfe0e41163023d03c26296f375bb3eac",
     "/assets/hdfc.png": "38359abb09b2f1cc9dea41e7ec8f2026aed20a8a",
