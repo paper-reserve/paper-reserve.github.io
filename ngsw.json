@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1554487212963,
+  "timestamp": 1554516039037,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -11,7 +11,7 @@
         "/es2015-polyfills.1e04665e16f944715fd2.js",
         "/favicon.ico",
         "/index.html",
-        "/main.89ede3c45b8abb06284f.js",
+        "/main.3c61931ab4053730cb41.js",
         "/polyfills.8bbb231b43165d65d357.js",
         "/runtime.26209474bfa8dc87a77c.js",
         "/scripts.4d10c1b333ada0ab6568.js",
@@ -69,13 +69,13 @@
     {
       "name": "dropbox-api",
       "patterns": [
-        "\\/!\\/(?:.+\\/)?[^/]*create_shared_link_with_settings",
-        "\\/![^/]*[^/]*\\/[^/]*upload"
+        "\\/(?:.+\\/)?[^/]*create_shared_link_with_settings",
+        "\\/(?:.+\\/)?[^/]*upload"
       ],
       "strategy": "freshness",
       "maxSize": 0,
       "maxAge": 0,
-      "timeoutMs": 0,
+      "timeoutMs": 600000,
       "version": 1
     }
   ],
@@ -101,8 +101,8 @@
     "/assets/zeta.png": "772d4e1eb31b753a8e6aec61fb46b29c369f98c4",
     "/es2015-polyfills.1e04665e16f944715fd2.js": "b7a81c61d32b0b12737f0c13f45973ba391cd7f9",
     "/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/index.html": "b4c8c6ad1226f0f82287a481132efaae94972110",
-    "/main.89ede3c45b8abb06284f.js": "07ae35a5a3ad6f6104f1e3f13f53694cab183202",
+    "/index.html": "f2c668dc42d4658cd961484a877bd7e08f5fdf7a",
+    "/main.3c61931ab4053730cb41.js": "ec9e615f4598bfc0c052b9c6daf2e89bd6b9a61b",
     "/polyfills.8bbb231b43165d65d357.js": "ffa449995bf2eba2ccd0a002417214f7eb75e7b5",
     "/runtime.26209474bfa8dc87a77c.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
     "/scripts.4d10c1b333ada0ab6568.js": "d575e1f756ad982bc7aeee72deb2f8b36b3eb2b3",
