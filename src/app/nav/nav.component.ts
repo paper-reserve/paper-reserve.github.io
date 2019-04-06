@@ -11,6 +11,7 @@ import { DataService } from "../services/data.service";
 })
 export class NavComponent implements OnInit {
   loading = false;
+  online = navigator.onLine;
   fabButtons = [
     {
       icon: "playlist_add",
@@ -37,7 +38,15 @@ export class NavComponent implements OnInit {
     private data: DataService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.checkNetwork();
+  }
+  checkNetwork(){
+    this.online = navigator.onLine;
+    setTimeout(() => {
+      this.checkNetwork();
+    }, 500)
+  }
   showItems() {
     this.fabTogglerState = "active";
     this.buttons = this.fabButtons;
