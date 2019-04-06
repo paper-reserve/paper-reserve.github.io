@@ -1903,6 +1903,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
          * asynchronous execution that eventually resolves for respondWith() and waitUntil().
          */
         onFetch(event) {
+            if (event.request.url.indexOf('dropboxapi') !== -1) { return; }
             const req = event.request;
             const scopeUrl = this.scope.registration.scope;
             const requestUrlObj = this.adapter.parseUrl(req.url, scopeUrl);
