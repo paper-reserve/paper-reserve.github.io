@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import * as moment from "moment";
-
+import { NgForage, Driver, NgForageConfig, NgForageCache } from "ngforage";
+import * as uuid from "uuid";
+import { Observable, of } from "rxjs";
 @Injectable({
   providedIn: "root"
 })
@@ -9,7 +11,14 @@ export class DataService {
   MAP_URL =
     "https://script.google.com/macros/s/AKfycbzqbIwv3mExSH1I_kq3QiTiTvD85rXgI7uEWYnkjbe3JGJsnB0/exec";
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private readonly ngf: NgForage,
+    private readonly cache: NgForageCache
+  ) {
+    this.ngf.name = "offline_transactions";
+    this.cache.driver = Driver.INDEXED_DB;
+  }
 
   getTransactions(month) {
     return this.http.get(this.MAP_URL + "?isMap=true&sheet=" + month);
@@ -41,20 +50,29 @@ export class DataService {
     return this.http.get(BUDGET_URL);
   }
   writeTransaction(post, mode, trans_id) {
-    var data = [
-      post.subCat,
-      post.amount,
-      post.source,
-      post.cat,
-      post.comments,
-      post.location,
-      post.billImgUrl,
-      mode,
-      trans_id
-    ].join("|||");
-    let WRITE_URL =
-      "https://script.google.com/macros/s/AKfycbzp29Qzo_oLjAgi2UnhkRDl798lXFiU99Jy-aqXIuuE8NF0Ejlq/exec?row=";
-    return this.http.get(WRITE_URL + data);
+    let offline = !navigator.onLine;
+    post.timeStamp = moment().format("DD-MMMM HH:mm");
+    let offlinePostData = post;
+    if (offline) {
+      this.ngf.setItem(uuid.v4(), offlinePostData);
+      return of("Stored Offline");
+    } else {
+      var data = [
+        post.subCat,
+        post.amount,
+        post.source,
+        post.cat,
+        post.comments,
+        post.location,
+        post.billImgUrl,
+        mode,
+        trans_id,
+        post.timeStamp
+      ].join("|||");
+      let WRITE_URL =
+        "https://script.google.com/macros/s/AKfycbzp29Qzo_oLjAgi2UnhkRDl798lXFiU99Jy-aqXIuuE8NF0Ejlq/exec?row=";
+      return this.http.get(WRITE_URL + data);
+    }
   }
 
   uploadImage(fileName, file) {
@@ -99,5 +117,28 @@ export class DataService {
     let BALANCE_URL =
       "https://script.google.com/macros/s/AKfycbwiLibhxusQjgb4yl_3ue0_wY_NojiSRQI1KZOu7HZXMapFO2k/exec";
     return this.http.get(BALANCE_URL, { responseType: "text" });
+  }
+
+  // offline sync action
+  getOfflineTransactions() {
+    let out: any[] = [];
+    this.ngf
+      .iterate(
+        (value: any, key: any, itNum: number): void => {
+          value.key = key;
+          out.push(value);
+        }
+      )
+      .then(() => {
+        return of(out);
+      })
+      .catch();
+    return of(out);
+  }
+  getOffTran(key) {
+    return this.ngf.getItem(key);
+  }
+  delOffTran(key) {
+    return this.ngf.removeItem(key);
   }
 }

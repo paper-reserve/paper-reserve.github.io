@@ -13,7 +13,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { ReverseStr, PrependStr } from "./list/stringManipulation.pipe";
 
-import { LightboxModule } from 'ngx-lightbox';
+import { LightboxModule } from "ngx-lightbox";
+import { NgForageConfig, Driver } from "ngforage";
 
 import {
   FilterPipe,
@@ -25,11 +26,12 @@ import {
 } from "./list/transaction.pipe";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./material.module";
-import { Ng5SliderModule } from 'ng5-slider';
-import { ActionComponent } from './action/action.component';
-import { GmapComponent } from './gmap/gmap.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import { Ng5SliderModule } from "ng5-slider";
+import { ActionComponent } from "./action/action.component";
+import { GmapComponent } from "./gmap/gmap.component";
+import { ServiceWorkerModule } from "@angular/service-worker";
+import { OfflineSyncComponent } from './offline-sync/offline-sync.component';
+import { environment } from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,8 @@ import { environment } from '../environments/environment';
     IsTodayPipe,
     TransactionComponent,
     ActionComponent,
-    GmapComponent
+    GmapComponent,
+    OfflineSyncComponent
   ],
   entryComponents: [BottomSheetBudget],
   imports: [
@@ -60,9 +63,18 @@ import { environment } from '../environments/environment';
     MaterialModule,
     Ng5SliderModule,
     LightboxModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register("ngsw-worker.js", {
+      enabled: environment.production
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  public constructor(ngfConfig: NgForageConfig) {
+    ngfConfig.configure({
+      name: "ng7-pre",
+      driver: [Driver.INDEXED_DB, Driver.WEB_SQL, Driver.LOCAL_STORAGE]
+    });
+  }
+}

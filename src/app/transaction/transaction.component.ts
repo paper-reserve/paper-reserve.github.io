@@ -7,7 +7,7 @@ import { COMMA, ENTER } from "@angular/cdk/keycodes";
 import { MatChipInputEvent } from "@angular/material";
 import { formConsts } from "../consts/form.consts";
 import { navAnimations } from "../nav/nav.animations";
-
+import { MatSnackBar } from "@angular/material";
 import {
   FormBuilder,
   FormGroup,
@@ -22,6 +22,15 @@ import { Observable } from "rxjs/Observable";
   animations: navAnimations
 })
 export class TransactionComponent {
+  constructor(
+    private data: DataService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    protected localStorage: LocalStorage,
+    private snackBar: MatSnackBar
+  ) {}
+
   // mat chip variables
   selectable = true;
   removable = true;
@@ -100,14 +109,6 @@ export class TransactionComponent {
   transaction;
   fetching = false;
   mode = "create";
-
-  constructor(
-    private data: DataService,
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
-    protected localStorage: LocalStorage
-  ) {}
 
   ngOnInit() {
     this.editCheck();
@@ -210,21 +211,24 @@ export class TransactionComponent {
       billImgUrl: []
     });
     this.localStorage.getItem("unSubmittedForm").subscribe(unSubmittedForm => {
-      if(unSubmittedForm){
-      this.formGroup = this.formBuilder.group({
-        amount: [unSubmittedForm.amount, [Validators.required, Validators.pattern(amountRegex)]],
-        source: [unSubmittedForm.source, [Validators.required]],
-        cat: [unSubmittedForm.cat, [Validators.required]],
-        subCat: [unSubmittedForm.subCat, [Validators.required]],
-        comments: [[unSubmittedForm.comments], []],
-        billImgUrl: []
-      });
-      this.cat = unSubmittedForm.cat;
-      // if (unSubmittedForm.comments) {
-      //   this.comments = [unSubmittedForm.comments];
-      // } else {
-      //   this.comments = null;
-      // }
+      if (unSubmittedForm) {
+        this.formGroup = this.formBuilder.group({
+          amount: [
+            unSubmittedForm.amount,
+            [Validators.required, Validators.pattern(amountRegex)]
+          ],
+          source: [unSubmittedForm.source, [Validators.required]],
+          cat: [unSubmittedForm.cat, [Validators.required]],
+          subCat: [unSubmittedForm.subCat, [Validators.required]],
+          comments: [[unSubmittedForm.comments], []],
+          billImgUrl: []
+        });
+        this.cat = unSubmittedForm.cat;
+        // if (unSubmittedForm.comments) {
+        //   this.comments = [unSubmittedForm.comments];
+        // } else {
+        //   this.comments = null;
+        // }
       }
       this.formChanges();
     });
@@ -260,12 +264,22 @@ export class TransactionComponent {
     this.post = post;
     post.location = this.geoLocation;
     post.comments = this.comments;
+    let msg;
     this.data
       .writeTransaction(post, this.mode, this.trans_id)
       .subscribe(data => {
-        this.checkBalance();
+        if (data === "Stored Offline") {
+          this.router.navigate(["/offline_sync"]);
+          msg = "Stored Offline";
+        } else {
+          msg = "Transaction Added";
+          this.checkBalance();
+          this.router.navigate(["/transactions"]);
+        }
+        this.snackBar.open(msg, null, {
+          duration: 3000
+        });
         this.localStorage.removeItem("unSubmittedForm").subscribe(() => {});
-        this.router.navigate(["/transactions"]);
       });
   }
 }

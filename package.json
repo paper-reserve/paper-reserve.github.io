@@ -27,13 +27,16 @@
     "@ngx-pwa/local-storage": "^6.2.3",
     "@types/googlemaps": "^3.30.19",
     "core-js": "^2.5.4",
+    "localforage": "^1.7.3",
     "moment": "^2.24.0",
     "ng5-slider": "^1.1.13",
+    "ngforage": "^4.0.3",
     "ngx-lightbox": "^1.2.0",
     "replace-in-file": "^3.4.4",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.4.0",
     "tslib": "^1.9.0",
+    "uuid": "^3.3.2",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {

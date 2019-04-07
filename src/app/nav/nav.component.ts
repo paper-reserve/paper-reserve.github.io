@@ -26,6 +26,10 @@ export class NavComponent implements OnInit {
       link: "/gmap"
     },
     {
+      icon: "cloud_upload",
+      link: "/offline_sync"
+    },
+    {
       icon: "account_balance_wallet"
     }
   ];

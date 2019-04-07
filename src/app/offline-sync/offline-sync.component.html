@@ -1,0 +1,73 @@
+<mat-progress-bar mode="query" *ngIf="loading || syncing"> </mat-progress-bar>
+<div
+  *ngIf="offline_transactions && !offline_transactions.length"
+  class="center"
+>
+  Everything synced from this device.
+</div>
+<div *ngIf="offline_transactions.length && !loading && !syncing">
+  <div class="center">Sync {{ offline_transactions.length }} Transactions</div>
+  <div *ngFor="let transaction of offline_transactions.reverse()">
+    <mat-card
+      class="card fix-height"
+      [ngClass]="transaction.source | lowercase"
+    >
+      <div class="full-size">
+        <mat-card-header>
+          <div
+            mat-card-avatar
+            [ngClass]="transaction.source | lowercase | prependStr: 'avatar-'"
+          ></div>
+          <mat-card-title
+            >{{ transaction.amount | prependStr: "₹ " }}
+          </mat-card-title>
+          <mat-card-subtitle>{{
+            transaction.timeStamp | date: "MMM dd, yyyy hh:mm"
+          }}</mat-card-subtitle>
+
+          <a *ngIf="transaction.key" class="right" (click)="sync(transaction)">
+            <mat-icon>sync</mat-icon>
+          </a>
+        </mat-card-header>
+
+        <mat-card-content>
+          <mat-icon>{{ transaction.cat | iconstr }}</mat-icon>
+          <span class="card-info-str">
+            {{ transaction.subCat }}
+            <mat-chip-list class="right" *ngIf="transaction.comments"
+              ><mat-chip
+                class="chip-color"
+                *ngFor="let comment of transaction.comments"
+              >
+                {{ comment }}
+              </mat-chip></mat-chip-list
+            >
+          </span>
+        </mat-card-content>
+      </div>
+    </mat-card>
+  </div>
+</div>
+<mat-list *ngIf="syncing && syncTran">
+  <mat-list-item> <h4 mat-line>Syncing the transaction</h4> </mat-list-item>
+  <mat-list-item>
+    <mat-icon mat-list-icon>₹</mat-icon>
+    <h4 mat-line>{{ syncTran.amount }}</h4>
+  </mat-list-item>
+  <mat-list-item>
+    <mat-icon mat-list-icon>credit_card</mat-icon>
+    <h4 mat-line>{{ syncTran.source }}</h4>
+  </mat-list-item>
+  <mat-list-item>
+    <mat-icon mat-list-icon>category</mat-icon>
+    <h4 mat-line>{{ syncTran.cat }}</h4>
+  </mat-list-item>
+  <mat-list-item>
+    <mat-icon mat-list-icon>scatter_plot</mat-icon>
+    <h4 mat-line>{{ syncTran.subCat }}</h4>
+  </mat-list-item>
+  <mat-list-item>
+    <mat-icon mat-list-icon>comment</mat-icon>
+    <h4 mat-line>{{ syncTran.comments }}</h4>
+  </mat-list-item>
+</mat-list>
