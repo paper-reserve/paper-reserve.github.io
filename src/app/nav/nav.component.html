@@ -1,4 +1,3 @@
-<mat-progress-bar mode="query" *ngIf="!online" color="warn" class="fixed"></mat-progress-bar>
 <div
   id="fab-dismiss"
   *ngIf="fabTogglerState === 'active'"
@@ -17,6 +16,9 @@
     ></mat-spinner>
   </button>
 
+  <mat-icon [@speedDialStagger] color="warn" *ngIf="!online">cloud</mat-icon>
+  <mat-icon [@speedDialStagger] color="primary" *ngIf="online">cloud</mat-icon>
+  
   <div [@speedDialStagger]="buttons.length" *ngFor="let btn of buttons">
     <button
       *ngIf="btn.link"

@@ -14,6 +14,7 @@
           pattern="\d*"
           autocomplete="off"
           [(ngModel)]="amount"
+          #eamount
         />
         <mat-error
           *ngIf="
@@ -80,6 +81,7 @@
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
             (matChipInputTokenEnd)="add($event)"
+            #ecomments
           />
         </mat-chip-list>
       </mat-form-field>

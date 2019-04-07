@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild, ElementRef } from "@angular/core";
 import { DataService } from "../services/data.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import * as moment from "moment";
@@ -22,6 +22,8 @@ import { Observable } from "rxjs/Observable";
   animations: navAnimations
 })
 export class TransactionComponent {
+  @ViewChild("eamount") amountfield: ElementRef;
+  @ViewChild("ecomments") commentfield: ElementRef;
   constructor(
     private data: DataService,
     private formBuilder: FormBuilder,
@@ -81,12 +83,14 @@ export class TransactionComponent {
       comments: [sugg[5]],
       billImgUrl: null
     });
+    this.commentfield.nativeElement.focus();
+    this.amountfield.nativeElement.focus();
     this.cat = sugg[1];
-    // if (sugg[5]) {
-    //   this.comments = [sugg[5]];
-    // } else {
-    //   this.comments = [];
-    // }
+    if (sugg[5]) {
+      this.comments = sugg[5].split(",");
+    } else {
+      this.comments = [];
+    }
   }
 
   // FORM
@@ -116,6 +120,10 @@ export class TransactionComponent {
     this.createForm();
     this.getGeoLoc();
     this.getBalance();
+    setTimeout(() => {
+      this.commentfield.nativeElement.focus();
+      this.amountfield.nativeElement.focus();
+    }, 100);
   }
 
   editCheck() {
@@ -220,15 +228,15 @@ export class TransactionComponent {
           source: [unSubmittedForm.source, [Validators.required]],
           cat: [unSubmittedForm.cat, [Validators.required]],
           subCat: [unSubmittedForm.subCat, [Validators.required]],
-          comments: [[unSubmittedForm.comments], []],
+          comments: [[], []],
           billImgUrl: []
         });
         this.cat = unSubmittedForm.cat;
-        // if (unSubmittedForm.comments) {
-        //   this.comments = [unSubmittedForm.comments];
-        // } else {
-        //   this.comments = null;
-        // }
+        if (unSubmittedForm) {
+          this.comments = unSubmittedForm.comments;
+        } else {
+          this.comments = null;
+        }
       }
       this.formChanges();
     });
@@ -236,6 +244,9 @@ export class TransactionComponent {
 
   formChanges(): void {
     this.formGroup.valueChanges.subscribe(values => {
+      let temp = Object.assign([], this.comments);
+      temp.push(values.comments)
+      values.comments = temp;
       this.localStorage.setItem("unSubmittedForm", values).subscribe(() => {});
     });
   }
