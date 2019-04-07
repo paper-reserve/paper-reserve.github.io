@@ -130,7 +130,6 @@ export class DataService {
         }
       )
       .then(() => {
-        return of(out);
       })
       .catch();
     return of(out);

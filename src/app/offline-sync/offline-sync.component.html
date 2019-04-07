@@ -1,13 +1,13 @@
 <mat-progress-bar mode="query" *ngIf="loading || syncing"> </mat-progress-bar>
 <div
-  *ngIf="offline_transactions && !offline_transactions.length"
+  *ngIf="!offline_transactions"
   class="center"
 >
   Everything synced from this device.
 </div>
 <div *ngIf="offline_transactions.length && !loading && !syncing">
   <div class="center">Sync {{ offline_transactions.length }} Transactions</div>
-  <div *ngFor="let transaction of offline_transactions.reverse()">
+  <div *ngFor="let transaction of offline_transactions | reverse">
     <mat-card
       class="card fix-height"
       [ngClass]="transaction.source | lowercase"

@@ -27,7 +27,6 @@ export class OfflineSyncComponent implements OnInit {
     this.getOfflineTransactions();
   }
   getOfflineTransactions() {
-    this.offline_transactions = null;
     this.loading = true;
     this.data.getOfflineTransactions().subscribe(data => {
       this.loading = false;
