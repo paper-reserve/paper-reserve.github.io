@@ -1,0 +1,74 @@
+<div *ngIf="!loading">
+  <div *ngIf="!post; else: forminfo" novalidate>
+    <form
+      [formGroup]="formGroup"
+      (ngSubmit)="onSubmit(formGroup.value)"
+      class="form"
+    >
+      <mat-form-field class="form-element">
+        <mat-icon matPrefix>₹</mat-icon>
+        <input
+          matInput
+          placeholder="Amount"
+          formControlName="iamount"
+          pattern="\d*"
+          autocomplete="off"
+          [(ngModel)]="iamount"
+        />
+        <mat-error
+          *ngIf="
+            !formGroup.controls['iamount'].valid &&
+            formGroup.controls['iamount'].touched
+          "
+        >
+          Enter Valid Amount
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form-element">
+        <mat-label>Select Source</mat-label>
+        <mat-icon matPrefix>credit_card</mat-icon>
+        <mat-select [(value)]="source" formControlName="isource">
+          <mat-option *ngFor="let source of sources" [value]="source.value">
+            {{ source.key }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="form-element">
+        <mat-icon matPrefix>comment</mat-icon>
+        <input formControlName="icomments" placeholder="Comments" matInput />
+      </mat-form-field>
+      <div class="form-element">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="button"
+          [disabled]="!formGroup.valid"
+        >
+          Add Income
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <ng-template #forminfo>
+    <mat-progress-bar mode="query"></mat-progress-bar>
+    <mat-list>
+      <mat-list-item> <h4 mat-line>Adding Income</h4> </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon>₹</mat-icon>
+        <h4 mat-line>{{ post.iamount }}</h4>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon>credit_card</mat-icon>
+        <h4 mat-line>{{ post.isource }}</h4>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon>comment</mat-icon>
+        <h4 mat-line>{{ post.icomments }}</h4>
+      </mat-list-item>
+    </mat-list>
+  </ng-template>
+</div>
+<mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>

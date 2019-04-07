@@ -245,7 +245,7 @@ export class TransactionComponent {
   formChanges(): void {
     this.formGroup.valueChanges.subscribe(values => {
       let temp = Object.assign([], this.comments);
-      temp.push(values.comments)
+      temp.push(values.comments);
       values.comments = temp;
       this.localStorage.setItem("unSubmittedForm", values).subscribe(() => {});
     });
@@ -288,9 +288,12 @@ export class TransactionComponent {
           this.router.navigate(["/transactions"]);
         }
         this.snackBar.open(msg, null, {
-          duration: 3000
+          duration: 3000,
+          verticalPosition: "top",
+          horizontalPosition: "left"
         });
         this.localStorage.removeItem("unSubmittedForm").subscribe(() => {});
+        this.comments = [];
       });
   }
 }

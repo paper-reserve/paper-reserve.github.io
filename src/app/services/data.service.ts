@@ -119,6 +119,11 @@ export class DataService {
     return this.http.get(BALANCE_URL, { responseType: "text" });
   }
 
+  addIncome(post){
+    let INCOME_URL = "https://script.google.com/macros/s/AKfycbzwgP7l-SP3h0Vbr2Xd3Eh71gr8xaQMHsqHxvQvptndjO1Z5K0K/exec";
+    return this.http.get(INCOME_URL + "?cell=" + post.isource + "&nVal=" + post.iamount + "&nNote=" + post.icomments, { responseType: "text" });
+  }
+
   // offline sync action
   getOfflineTransactions() {
     let out: any[] = [];

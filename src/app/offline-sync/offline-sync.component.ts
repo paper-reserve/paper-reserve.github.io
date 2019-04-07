@@ -57,7 +57,9 @@ export class OfflineSyncComponent implements OnInit {
 
             this.data.delOffTran(key).then(out => {
               this.snackBar.open(msg, null, {
-                duration: 3000
+                duration: 3000,
+                verticalPosition: "top",
+                horizontalPosition: "left"
               });
               this.syncing = false;
               this.syncTran = null;
