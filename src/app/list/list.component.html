@@ -37,7 +37,10 @@
           <mat-icon>close</mat-icon>
         </button>
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of autoCompletes | arrayStringFltr:query " [value]="option">
+          <mat-option
+            *ngFor="let option of (autoCompletes | arrayStringFltr: query)"
+            [value]="option"
+          >
             {{ option }}
           </mat-option>
         </mat-autocomplete>

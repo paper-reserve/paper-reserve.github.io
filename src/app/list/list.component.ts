@@ -163,7 +163,7 @@ export class ListComponent implements OnInit {
         .subscribe(data => {});
     });
     this.localStorage.getItem("autoCompletes").subscribe(data => {
-      this.autoCompletes = data.flat().reverse();
+      if (data) this.autoCompletes = data.flat().reverse();
     });
   }
   imgOpen(src, caption) {
