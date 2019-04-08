@@ -186,10 +186,16 @@
                 {{ transaction[1] }}
                 <mat-chip-list class="right" *ngIf="transaction[5]"
                   ><mat-chip
+                    [ngClass]="{
+                      'selected-chip': query === comment
+                    }"
                     class="chip-color"
+                    [selectable]="selectable"
                     *ngFor="let comment of transaction[5].toString().split(',')"
                   >
-                    {{ comment }}
+                    <p (click)="query = query === comment ? '' : comment">
+                      {{ comment }}
+                    </p>
                   </mat-chip></mat-chip-list
                 >
               </span>
