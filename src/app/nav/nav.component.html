@@ -18,7 +18,7 @@
 
   <mat-icon [@speedDialStagger] color="warn" *ngIf="!online">cloud</mat-icon>
   <mat-icon [@speedDialStagger] color="primary" *ngIf="online">cloud</mat-icon>
-  
+
   <div [@speedDialStagger]="buttons.length" *ngFor="let btn of buttons">
     <button
       *ngIf="btn.link"
@@ -44,12 +44,14 @@
     </button>
   </div>
   <div
+    class="bal-container"
     [@speedDialStagger]="chips.length"
     *ngFor="let chip of (chips | reverse)"
   >
     <mat-chip-list *ngFor="let data of (chip | keyvalue)">
-      <mat-chip [ngClass]="data.key | lowercase"
-        >{{ data.key }}: {{ data.value | prependStr: " ₹ " }}</mat-chip
+      <mat-chip [ngClass]="data.key | lowercase" class="balance-chip"
+        >{{ data.key }}:
+        <strong>{{ data.value | prependStr: " ₹ " }}</strong></mat-chip
       >
     </mat-chip-list>
   </div>
