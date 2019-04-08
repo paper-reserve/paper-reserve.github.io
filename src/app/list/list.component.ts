@@ -118,10 +118,12 @@ export class ListComponent implements OnInit {
   }
 
   dateClass = (d: Date) => {
-    let start_date = this.dateStart.getDate();
-    let end_date = this.dateEnd.getDate();
-    let date = d.getDate();
-    return date >= start_date && date <= end_date ? "range-date" : undefined;
+    if (this.dateStart && this.dateEnd) {
+      let start_date = this.dateStart.getDate();
+      let end_date = this.dateEnd.getDate();
+      let date = d.getDate();
+      return date >= start_date && date <= end_date ? "range-date" : undefined;
+    }
   };
 
   setMonthSelector() {
