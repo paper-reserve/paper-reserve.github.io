@@ -7,8 +7,8 @@
         (click)="
           sourceFltr = '';
           query = '';
-          dateStart = minDate;
-          dateEnd = maxDate;
+          dateStart = '';
+          dateEnd = '';
           catFltr = '';
           lowValue = 0;
           highValue = 20000
@@ -208,7 +208,7 @@
         Today:
         {{
           transactions.expenses
-            | filter: today:"date"
+            | filter: [today, today]:"date"
             | sumAmt: "today"
             | prependStr: "₹ "
         }}
@@ -252,9 +252,8 @@
               <mat-card-subtitle>
                 <p
                   (click)="
-                    dateStart =
-                      dateStart !== minDate ? minDate : transaction[0];
-                    dateEnd = dateEnd !== maxDate ? maxDate : transaction[0]
+                    dateStart = dateStart ? '' : transaction[0];
+                    dateEnd = dateEnd ? '' : transaction[0]
                   "
                 >
                   {{ transaction[0] | date: "MMM dd, yyyy hh:mm" }}

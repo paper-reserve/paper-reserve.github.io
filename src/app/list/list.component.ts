@@ -55,7 +55,7 @@ export class ListComponent implements OnInit {
       return "₹" + value;
     }
   };
-  autoCompletes;
+  autoCompletes = [];
   filterDrawer;
   sortDrawer;
   sortKey;
@@ -115,8 +115,6 @@ export class ListComponent implements OnInit {
               .endOf("month")
               .toString()
           );
-    this.dateStart = this.minDate;
-    this.dateEnd = this.maxDate;
   }
 
   dateClass = (d: Date) => {

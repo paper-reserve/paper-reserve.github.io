@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import * as moment from "moment";
-import * as _ from 'lodash';
+import * as _ from "lodash";
 @Pipe({
   name: "filter"
 })
@@ -27,14 +27,16 @@ export class FilterPipe implements PipeTransform {
         break;
       }
       case "date": {
-        return items.filter(it => {
-          return (
-            moment(query[0]).format("DD MM YYYY") <=
-              moment(it[0]).format("DD MM YYYY") &&
-            moment(query[1]).format("DD MM YYYY") >=
-              moment(it[0]).format("DD MM YYYY")
-          );
-        });
+        if (query[0] && query[1]) {
+          return items.filter(it => {
+            return (
+              moment(query[0]).format("DD MM YYYY") <=
+                moment(it[0]).format("DD MM YYYY") &&
+              moment(query[1]).format("DD MM YYYY") >=
+                moment(it[0]).format("DD MM YYYY")
+            );
+          });
+        } else return items;
         break;
       }
       case "cat": {
