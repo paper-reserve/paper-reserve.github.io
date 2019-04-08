@@ -110,8 +110,8 @@
           sortKey = key.key; sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'
         "
       >
-        <mat-icon matPrefix>{{key.icon}}</mat-icon>
-        {{key.value}}
+        <mat-icon matPrefix>{{ key.icon }}</mat-icon>
+        {{ key.value }}
         <span *ngIf="sortKey === key.key">
           {{ sortOrder === "desc" ? key.desc : key.asc }}
         </span>
@@ -199,14 +199,21 @@
             <mat-card-header>
               <div
                 mat-card-avatar
+                (click)="
+                  sourceFltr = sourceFltr
+                    ? null
+                    : [transaction[3].toLowerCase()]
+                "
                 [ngClass]="transaction[3] | lowercase | prependStr: 'avatar-'"
               ></div>
-              <mat-card-title
-                >{{ transaction[2] | prependStr: "₹ " }}
+              <mat-card-title>
+                {{ transaction[2] | prependStr: "₹ " }}
               </mat-card-title>
-              <mat-card-subtitle>{{
-                transaction[0] | date: "MMM dd, yyyy hh:mm"
-              }}</mat-card-subtitle>
+              <mat-card-subtitle>
+                <p (click)="dateQuery = dateQuery ? '' : transaction[0]">
+                  {{ transaction[0] | date: "MMM dd, yyyy hh:mm" }}
+                </p></mat-card-subtitle
+              >
               <a
                 class="right"
                 routerLink="/transactions/{{transaction[9]}}/show"
@@ -223,8 +230,15 @@
             </mat-card-header>
 
             <mat-card-content>
-              <mat-icon>{{ transaction[4] | iconstr }}</mat-icon>
-              <span class="card-info-str">
+              <mat-icon (click)="catFltr = catFltr ? null : [transaction[4]]">{{
+                transaction[4] | iconstr
+              }}</mat-icon>
+              <span
+                class="card-info-str"
+                (click)="
+                  query = query === transaction[1] ? null : transaction[1]
+                "
+              >
                 {{ transaction[1] }}
                 <mat-chip-list class="right" *ngIf="transaction[5]"
                   ><mat-chip
