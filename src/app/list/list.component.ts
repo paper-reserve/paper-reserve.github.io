@@ -6,6 +6,7 @@ import { MAT_BOTTOM_SHEET_DATA } from "@angular/material";
 import { MatSlideToggleChange } from "@angular/material";
 import { Options } from "ng5-slider";
 import { Lightbox } from "ngx-lightbox";
+import { LocalStorage } from "@ngx-pwa/local-storage";
 
 @Component({
   selector: "app-list",
@@ -65,6 +66,7 @@ export class ListComponent implements OnInit {
       return "₹" + value;
     }
   };
+  autoCompletes;
   filterDrawer;
   sortDrawer;
   sortKey;
@@ -102,7 +104,8 @@ export class ListComponent implements OnInit {
   constructor(
     private data: DataService,
     private bottomSheet: MatBottomSheet,
-    private _lightbox: Lightbox
+    private _lightbox: Lightbox,
+    protected localStorage: LocalStorage
   ) {}
 
   ngOnInit() {
@@ -150,6 +153,15 @@ export class ListComponent implements OnInit {
           );
     this.data.getTransactions(this.monthFltr).subscribe(data => {
       this.transactions = data;
+      let autoComplete = this.transactions.expenses.map(it => {
+        return it[5].split(",");
+      });
+      this.localStorage
+        .setItem("autoCompletes", autoComplete)
+        .subscribe(data => {});
+    });
+    this.localStorage.getItem("autoCompletes").subscribe(data => {
+      this.autoCompletes = data.flat().reverse();
     });
   }
   imgOpen(src, caption) {

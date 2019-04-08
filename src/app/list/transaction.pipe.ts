@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from "@angular/core";
 import * as moment from "moment";
-
+import * as _ from 'lodash';
 @Pipe({
   name: "filter"
 })
@@ -128,5 +128,17 @@ export class PercentagePipe implements PipeTransform {
 export class IsTodayPipe implements PipeTransform {
   transform(date) {
     return moment(date).format("DD MM YYYY") == moment().format("DD MM YYYY");
+  }
+}
+
+@Pipe({ name: "arrayStringFltr" })
+export class ArrayStringFilterPipe implements PipeTransform {
+  transform(items: any[], query: string) {
+    items = _.uniq(items);
+    if (query) {
+      return items.filter(it => {
+        return it.toLowerCase().includes(query.toLowerCase());
+      });
+    } else return items;
   }
 }

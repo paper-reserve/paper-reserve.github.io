@@ -23,7 +23,8 @@ import {
   PercentagePipe,
   SumAmtPipe,
   SortingPipe,
-  IsTodayPipe
+  IsTodayPipe,
+  ArrayStringFilterPipe
 } from "./list/transaction.pipe";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./material.module";
@@ -50,6 +51,7 @@ import { IncomeFormComponent } from './income-form/income-form.component';
     IconStrPipe,
     PercentagePipe,
     IsTodayPipe,
+    ArrayStringFilterPipe,
     TransactionComponent,
     ActionComponent,
     GmapComponent,
