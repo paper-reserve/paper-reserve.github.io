@@ -51,7 +51,9 @@
     <mat-chip-list *ngFor="let data of (chip | keyvalue)">
       <mat-chip [ngClass]="data.key | lowercase" class="balance-chip"
         >{{ data.key }}:
-        <strong>{{ data.value | prependStr: " ₹ " }}</strong></mat-chip
+        <strong class="balance">{{
+          data.value | prependStr: " ₹ "
+        }}</strong></mat-chip
       >
     </mat-chip-list>
   </div>

@@ -48,7 +48,9 @@
 .balance-chip {
   width: 160px;
   display: block;
-  text-align: center;
+}
+.balance {
+  float: right;
 }
 .bal-container {
   margin-left: -105px;
