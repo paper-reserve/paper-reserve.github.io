@@ -43,19 +43,8 @@ export class ListComponent implements OnInit {
   dateStart;
   dateEnd;
   catFltr;
-  minDate = new Date(
-    moment(this.monthFltr)
-      .startOf("month")
-      .toString()
-  );
-  maxDate =
-    this.monthFltr === this.currMonth
-      ? new Date(moment().toString())
-      : new Date(
-          moment(this.monthFltr)
-            .endOf("month")
-            .toString()
-        );
+  minDate;
+  maxDate;
   lowValue: number = 0;
   highValue: number = 20000;
   options: Options = {
@@ -113,6 +102,19 @@ export class ListComponent implements OnInit {
     this.getTransactions();
     this.sortKey = "id";
     this.sortOrder = "desc";
+    this.minDate = new Date(
+      moment(this.monthFltr)
+        .startOf("month")
+        .toString()
+    );
+    this.maxDate =
+      this.monthFltr === this.currMonth
+        ? new Date(moment().toString())
+        : new Date(
+            moment(this.monthFltr)
+              .endOf("month")
+              .toString()
+          );
     this.dateStart = this.minDate;
     this.dateEnd = this.maxDate;
   }
