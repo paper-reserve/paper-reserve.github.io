@@ -61,6 +61,8 @@ export class ListComponent implements OnInit {
       return "₹" + value;
     }
   };
+  filterDrawer;
+  sortDrawer;
   sortKey;
   sortOrder;
   sortKeys = [
