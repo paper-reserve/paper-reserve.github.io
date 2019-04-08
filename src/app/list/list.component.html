@@ -1,114 +1,156 @@
 <mat-drawer-container class="container" autosize hasBackdrop="true">
   <mat-drawer #drawer class="sidenav" mode="push">
-    <button
-      mat-button
-      color="warn"
-      (click)="
-        sourceFltr = '';
-        query = '';
-        dateQuery = '';
-        catFltr = '';
-        lowValue = 0;
-        highValue = 20000
-      "
-      class="right"
-    >
-      <mat-icon>refresh</mat-icon>
-    </button>
-    <mat-form-field class="mat-form-elem">
-      <mat-icon matPrefix>search</mat-icon>
-      <input type="text" matInput placeholder="Search" [(ngModel)]="query" />
+    <div *ngIf="filterDrawer">
       <button
         mat-button
-        *ngIf="query"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="query = ''"
+        color="warn"
+        (click)="
+          sourceFltr = '';
+          query = '';
+          dateQuery = '';
+          catFltr = '';
+          lowValue = 0;
+          highValue = 20000
+        "
+        class="right"
       >
-        <mat-icon>close</mat-icon>
+        <mat-icon>refresh</mat-icon>
       </button>
-    </mat-form-field>
-    <mat-form-field class="mat-form-elem">
-      <input
-        matInput
-        [min]="minDate"
-        [max]="maxDate"
-        [matDatepicker]="picker"
-        placeholder="Date"
-        [(ngModel)]="dateQuery"
-      />
-      <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker touchUi></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="mat-form-elem">
-      <mat-label>Select Source</mat-label>
-      <mat-icon matPrefix>credit_card</mat-icon>
-      <mat-select [(value)]="sourceFltr" multiple>
-        <mat-option *ngFor="let source of sources" [value]="source.value">
-          {{ source.viewValue }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="mat-form-elem">
-      <mat-label>Select Category</mat-label>
-      <mat-icon matPrefix>category</mat-icon>
-      <mat-select [(value)]="catFltr" multiple>
-        <mat-option *ngFor="let cat of cats" [value]="cat">
-          {{ cat }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div class="mat-form-elem custom-slider">
-      <ng5-slider
-        [(value)]="lowValue"
-        [(highValue)]="highValue"
-        [options]="options"
-      ></ng5-slider>
+      <mat-form-field class="mat-form-elem">
+        <mat-icon matPrefix>search</mat-icon>
+        <input type="text" matInput placeholder="Search" [(ngModel)]="query" />
+        <button
+          mat-button
+          *ngIf="query"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="query = ''"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field class="mat-form-elem">
+        <input
+          matInput
+          [min]="minDate"
+          [max]="maxDate"
+          [matDatepicker]="picker"
+          placeholder="Date"
+          [(ngModel)]="dateQuery"
+        />
+        <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker touchUi></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="mat-form-elem">
+        <mat-label>Select Source</mat-label>
+        <mat-icon matPrefix>credit_card</mat-icon>
+        <mat-select [(value)]="sourceFltr" multiple>
+          <mat-option *ngFor="let source of sources" [value]="source.value">
+            {{ source.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="mat-form-elem">
+        <mat-label>Select Category</mat-label>
+        <mat-icon matPrefix>category</mat-icon>
+        <mat-select [(value)]="catFltr" multiple>
+          <mat-option *ngFor="let cat of cats" [value]="cat">
+            {{ cat }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="mat-form-elem custom-slider">
+        <ng5-slider
+          [(value)]="lowValue"
+          [(highValue)]="highValue"
+          [options]="options"
+        ></ng5-slider>
+      </div>
+      <mat-form-field class="mat-form-elem">
+        <mat-icon matPrefix>₹</mat-icon>
+        <input
+          type="text"
+          matInput
+          placeholder="Min."
+          [(ngModel)]="lowValue"
+          pattern="\d*"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <mat-form-field class="mat-form-elem">
+        <mat-icon matPrefix>₹</mat-icon>
+        <input
+          type="text"
+          matInput
+          placeholder="Max."
+          [(ngModel)]="highValue"
+          pattern="\d*"
+          autocomplete="off"
+        />
+      </mat-form-field>
     </div>
-    <mat-form-field class="mat-form-elem">
-      <mat-icon matPrefix>₹</mat-icon>
-      <input
-        type="text"
-        matInput
-        placeholder="Min."
-        [(ngModel)]="lowValue"
-        pattern="\d*"
-        autocomplete="off"
-      />
-    </mat-form-field>
-    <mat-form-field class="mat-form-elem">
-      <mat-icon matPrefix>₹</mat-icon>
-      <input
-        type="text"
-        matInput
-        placeholder="Max."
-        [(ngModel)]="highValue"
-        pattern="\d*"
-        autocomplete="off"
-      />
-    </mat-form-field>
+    <div *ngIf="sortDrawer">
+      <button
+        type="button"
+        mat-button
+        color="warn"
+        (click)="sortKey = 'id'; sortOrder = 'desc'"
+        class="right"
+      >
+        <mat-icon>refresh</mat-icon>
+      </button>
+
+      <button
+        class="mat-form-elem sort-keys"
+        type="button"
+        mat-button
+        *ngFor="let key of sortKeys"
+        (click)="
+          sortKey = key.key; sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'
+        "
+      >
+        <mat-icon matPrefix>{{key.icon}}</mat-icon>
+        {{key.value}}
+        <span *ngIf="sortKey === key.key">
+          {{ sortOrder === "desc" ? key.desc : key.asc }}
+        </span>
+        <mat-icon *ngIf="sortKey === key.key" matSuffix>{{
+          sortOrder === "desc" ? "expand_more" : "expand_less"
+        }}</mat-icon>
+      </button>
+    </div>
   </mat-drawer>
+
   <mat-progress-bar mode="query" *ngIf="!transactions"></mat-progress-bar>
   <ng-container
     *ngIf="
       transactions &&
       (transactions.expenses
-        | reverse
         | filter: sourceFltr:'source'
         | filter: query:'search'
         | filter: dateQuery:'date'
         | filter: catFltr:'cat'
-        | filter: [lowValue, highValue]:'amount') as filteredExpenses
+        | filter: [lowValue, highValue]:'amount'
+        | sortBy: sortKey:sortOrder) as filteredExpenses
     "
   >
     <div class="list-header">
       <button
         type="button"
+        class="mini"
         mat-button
-        (click)="drawer.toggle(); drawerOpen = !drawerOpen"
+        (click)="drawer.toggle(); filterDrawer = true; sortDrawer = false"
       >
         <mat-icon>filter_list</mat-icon>
+      </button>
+      <button
+        type="button"
+        class="mini"
+        mat-button
+        (click)="drawer.toggle(); sortDrawer = true; filterDrawer = false"
+      >
+        <mat-icon>sort</mat-icon>
       </button>
 
       <button

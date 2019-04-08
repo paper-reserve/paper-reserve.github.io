@@ -61,6 +61,38 @@ export class ListComponent implements OnInit {
       return "₹" + value;
     }
   };
+  sortKey;
+  sortOrder;
+  sortKeys = [
+    {
+      key: "amount",
+      value: "Amount",
+      icon: "₹",
+      desc: "(high to low)",
+      asc: "(low to high)"
+    },
+    {
+      key: "date",
+      value: "Date",
+      icon: "date_range",
+      desc: "(" + moment().format("DD") + " to 01)",
+      asc: "(01 to " + moment().format("DD") + ")"
+    },
+    {
+      key: "source",
+      value: "Source",
+      icon: "credit_card",
+      desc: "(Z to A)",
+      asc: "(A to Z)"
+    },
+    {
+      key: "cat",
+      value: "Category",
+      icon: "category",
+      desc: "(Z to A)",
+      asc: "(A to Z)"
+    }
+  ];
   constructor(
     private data: DataService,
     private bottomSheet: MatBottomSheet,
@@ -70,6 +102,8 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     this.setMonthSelector();
     this.getTransactions();
+    this.sortKey = "id";
+    this.sortOrder = "desc";
   }
 
   setMonthSelector() {

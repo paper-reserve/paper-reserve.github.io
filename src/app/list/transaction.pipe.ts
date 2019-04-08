@@ -56,6 +56,29 @@ export class FilterPipe implements PipeTransform {
   }
 }
 
+@Pipe({ name: "sortBy" })
+export class SortingPipe implements PipeTransform {
+  transform(items: any[], key: string, order: string) {
+    let keyMap = {
+      date: 0,
+      source: 3,
+      cat: 4,
+      amount: 2,
+      id: 9
+    };
+    let field = keyMap[key];
+    items.sort((a: any, b: any) => {
+      if (a[field] < b[field]) {
+        return -1;
+      } else if (a[field] > b[field]) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    return order === "desc" ? items.reverse() : items;
+  }
+}
 @Pipe({ name: "sumAmt" })
 export class SumAmtPipe implements PipeTransform {
   transform(items: any[], flag: string) {
