@@ -7,7 +7,8 @@
         (click)="
           sourceFltr = '';
           query = '';
-          dateQuery = '';
+          dateStart = minDate;
+          dateEnd = maxDate;
           catFltr = '';
           lowValue = 0;
           highValue = 20000
@@ -30,17 +31,42 @@
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
-      <mat-form-field class="mat-form-elem">
+      <mat-form-field class="mat-form-elem date-range">
         <input
           matInput
           [min]="minDate"
           [max]="maxDate"
           [matDatepicker]="picker"
-          placeholder="Date"
-          [(ngModel)]="dateQuery"
+          placeholder="Start Date"
+          [(ngModel)]="dateStart"
+          (focus)="picker.open()"
         />
         <mat-datepicker-toggle matPrefix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker touchUi></mat-datepicker>
+        <mat-datepicker
+          #picker
+          touchUi
+          [dateClass]="dateClass"
+        ></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="mat-form-elem date-range">
+        <input
+          matInput
+          [min]="dateStart"
+          [max]="maxDate"
+          [matDatepicker]="pickerEnd"
+          placeholder="End Date"
+          [(ngModel)]="dateEnd"
+          (focus)="pickerEnd.open()"
+        />
+        <mat-datepicker-toggle
+          matPrefix
+          [for]="pickerEnd"
+        ></mat-datepicker-toggle>
+        <mat-datepicker
+          [dateClass]="dateClass"
+          #pickerEnd
+          touchUi
+        ></mat-datepicker>
       </mat-form-field>
       <mat-form-field class="mat-form-elem">
         <mat-label>Select Source</mat-label>
@@ -67,7 +93,7 @@
           [options]="options"
         ></ng5-slider>
       </div>
-      <mat-form-field class="mat-form-elem">
+      <mat-form-field class="mat-form-elem amount-range">
         <mat-icon matPrefix>₹</mat-icon>
         <input
           type="text"
@@ -78,7 +104,7 @@
           autocomplete="off"
         />
       </mat-form-field>
-      <mat-form-field class="mat-form-elem">
+      <mat-form-field class="mat-form-elem amount-range">
         <mat-icon matPrefix>₹</mat-icon>
         <input
           type="text"
@@ -129,7 +155,7 @@
       (transactions.expenses
         | filter: sourceFltr:'source'
         | filter: query:'search'
-        | filter: dateQuery:'date'
+        | filter: [dateStart, dateEnd]:'date'
         | filter: catFltr:'cat'
         | filter: [lowValue, highValue]:'amount'
         | sortBy: sortKey:sortOrder) as filteredExpenses
@@ -210,7 +236,13 @@
                 {{ transaction[2] | prependStr: "₹ " }}
               </mat-card-title>
               <mat-card-subtitle>
-                <p (click)="dateQuery = dateQuery ? '' : transaction[0]">
+                <p
+                  (click)="
+                    dateStart =
+                      dateStart !== minDate ? minDate : transaction[0];
+                    dateEnd = dateEnd !== maxDate ? maxDate : transaction[0]
+                  "
+                >
                   {{ transaction[0] | date: "MMM dd, yyyy hh:mm" }}
                 </p></mat-card-subtitle
               >

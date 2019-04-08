@@ -39,18 +39,22 @@ export class ListComponent implements OnInit {
   today = moment();
   sourceFltr;
   query;
-  dateQuery;
+  dateStart;
+  dateEnd;
   catFltr;
   minDate = new Date(
     moment(this.monthFltr)
       .startOf("month")
       .toString()
   );
-  maxDate = new Date(
-    moment(this.monthFltr)
-      .endOf("month")
-      .toString()
-  );
+  maxDate =
+    this.monthFltr === this.currMonth
+      ? new Date(moment().toString())
+      : new Date(
+          moment(this.monthFltr)
+            .endOf("month")
+            .toString()
+        );
   lowValue: number = 0;
   highValue: number = 20000;
   options: Options = {
@@ -106,7 +110,16 @@ export class ListComponent implements OnInit {
     this.getTransactions();
     this.sortKey = "id";
     this.sortOrder = "desc";
+    this.dateStart = this.minDate;
+    this.dateEnd = this.maxDate;
   }
+
+  dateClass = (d: Date) => {
+    let start_date = this.dateStart.getDate();
+    let end_date = this.dateEnd.getDate();
+    let date = d.getDate();
+    return date >= start_date && date <= end_date ? "range-date" : undefined;
+  };
 
   setMonthSelector() {
     let maxPastMonth = "May 2018";
@@ -127,11 +140,14 @@ export class ListComponent implements OnInit {
         .startOf("month")
         .toString()
     );
-    this.maxDate = new Date(
-      moment(this.monthFltr)
-        .endOf("month")
-        .toString()
-    );
+    this.maxDate =
+      this.monthFltr === this.currMonth
+        ? new Date(moment().toString())
+        : new Date(
+            moment(this.monthFltr)
+              .endOf("month")
+              .toString()
+          );
     this.data.getTransactions(this.monthFltr).subscribe(data => {
       this.transactions = data;
     });

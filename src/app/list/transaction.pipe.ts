@@ -29,8 +29,10 @@ export class FilterPipe implements PipeTransform {
       case "date": {
         return items.filter(it => {
           return (
-            moment(it[0]).format("DD MM YYYY") ==
-            moment(query).format("DD MM YYYY")
+            moment(query[0]).format("DD MM YYYY") <=
+              moment(it[0]).format("DD MM YYYY") &&
+            moment(query[1]).format("DD MM YYYY") >=
+              moment(it[0]).format("DD MM YYYY")
           );
         });
         break;
