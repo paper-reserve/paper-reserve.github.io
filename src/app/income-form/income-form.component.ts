@@ -53,7 +53,7 @@ export class IncomeFormComponent implements OnInit {
     this.data.addIncome(post).subscribe(data => {
       this.snackBar.open("Income Added", null, {
         duration: 3000,
-        verticalPosition: "top",
+        verticalPosition: "bottom",
         horizontalPosition: "left"
       });
       this.router.navigate([""]);

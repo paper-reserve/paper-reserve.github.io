@@ -51,7 +51,9 @@ export class DataService {
   }
   writeTransaction(post, mode, trans_id) {
     let offline = !navigator.onLine;
-    post.timeStamp = moment().format("DD-MMMM HH:mm");
+    if (!post.timeStamp) {
+      post.timeStamp = moment().format("DD-MMMM HH:mm");
+    }
     let offlinePostData = post;
     if (offline) {
       this.ngf.setItem(uuid.v4(), offlinePostData);
@@ -119,9 +121,19 @@ export class DataService {
     return this.http.get(BALANCE_URL, { responseType: "text" });
   }
 
-  addIncome(post){
-    let INCOME_URL = "https://script.google.com/macros/s/AKfycbzwgP7l-SP3h0Vbr2Xd3Eh71gr8xaQMHsqHxvQvptndjO1Z5K0K/exec";
-    return this.http.get(INCOME_URL + "?cell=" + post.isource + "&nVal=" + post.iamount + "&nNote=" + post.icomments, { responseType: "text" });
+  addIncome(post) {
+    let INCOME_URL =
+      "https://script.google.com/macros/s/AKfycbzwgP7l-SP3h0Vbr2Xd3Eh71gr8xaQMHsqHxvQvptndjO1Z5K0K/exec";
+    return this.http.get(
+      INCOME_URL +
+        "?cell=" +
+        post.isource +
+        "&nVal=" +
+        post.iamount +
+        "&nNote=" +
+        post.icomments,
+      { responseType: "text" }
+    );
   }
 
   // offline sync action
@@ -134,8 +146,7 @@ export class DataService {
           out.push(value);
         }
       )
-      .then(() => {
-      })
+      .then(() => {})
       .catch();
     return of(out);
   }

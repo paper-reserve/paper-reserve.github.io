@@ -289,7 +289,7 @@ export class TransactionComponent {
         }
         this.snackBar.open(msg, null, {
           duration: 3000,
-          verticalPosition: "top",
+          verticalPosition: "bottom",
           horizontalPosition: "left"
         });
         this.localStorage.removeItem("unSubmittedForm").subscribe(() => {});

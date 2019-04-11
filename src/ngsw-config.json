@@ -10,8 +10,8 @@
       ],
       "cacheConfig": {
         "strategy": "freshness",
-        "maxSize": 100,
-        "maxAge": "3d",
+        "maxSize": 1000,
+        "maxAge": "5d",
         "timeout": "15s"
       }
     },
@@ -50,7 +50,7 @@
     },
     {
       "name": "assets",
-      "installMode": "lazy",
+      "installMode": "prefetch",
       "updateMode": "prefetch",
       "resources": {
         "files": [
