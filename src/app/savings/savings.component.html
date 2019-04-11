@@ -1,0 +1,26 @@
+<mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
+
+<mat-accordion>
+  <mat-expansion-panel
+    (opened)="!this.instalments.length ? this.getInstalments() : null"
+  >
+    <mat-expansion-panel-header>
+      <mat-panel-title> Installments </mat-panel-title>
+      <mat-panel-description> Fixed Amount Savings </mat-panel-description>
+    </mat-expansion-panel-header>
+    <table
+      class="mat-elevation-z8 mobile-table expansion-panel-body"
+      *ngIf="!loading"
+    >
+      <th *ngFor="let header of headers" class="header">{{ header }}</th>
+      <tr
+        *ngFor="let row of instalments; let i = index"
+        [ngClass]="{ 'total-row': !i }"
+      >
+        <td *ngFor="let column of row; let j = index">
+          {{ j && column ? "₹ " : null }}{{ column ? column : "--" }}
+        </td>
+      </tr>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>

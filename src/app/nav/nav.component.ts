@@ -26,6 +26,10 @@ export class NavComponent implements OnInit {
       link: "/gmap"
     },
     {
+      icon: "favorite_border",
+      link: "/savings"
+    },
+    {
       icon: "how_to_vote",
       link: "/income"
     },

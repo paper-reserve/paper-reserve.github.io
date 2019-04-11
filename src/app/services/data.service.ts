@@ -10,7 +10,8 @@ import { Observable, of } from "rxjs";
 export class DataService {
   MAP_URL =
     "https://script.google.com/macros/s/AKfycbzqbIwv3mExSH1I_kq3QiTiTvD85rXgI7uEWYnkjbe3JGJsnB0/exec";
-
+  INFO_URL =
+    "https://script.google.com/macros/s/AKfycbxb2XVYjTfM9CYNEvlpOHmj5QIR_-t3utN4gBMLwf1WLUNhPIs/exec";
   constructor(
     private http: HttpClient,
     private readonly ngf: NgForage,
@@ -44,10 +45,8 @@ export class DataService {
     );
   }
 
-  getBudgets() {
-    let BUDGET_URL =
-      "https://script.google.com/macros/s/AKfycbxb2XVYjTfM9CYNEvlpOHmj5QIR_-t3utN4gBMLwf1WLUNhPIs/exec";
-    return this.http.get(BUDGET_URL);
+  getSheetInfo(sheet_name) {
+    return this.http.get(this.INFO_URL + "?sheet_name=" + sheet_name);
   }
   writeTransaction(post, mode, trans_id) {
     let offline = !navigator.onLine;

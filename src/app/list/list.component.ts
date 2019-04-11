@@ -176,7 +176,7 @@ export class ListComponent implements OnInit {
   }
   getBudgets() {
     this.budgets = null;
-    this.data.getBudgets().subscribe(data => {
+    this.data.getSheetInfo('Budget').subscribe(data => {
       this.budgets = data;
       this.bottomSheet.open(BottomSheetBudget, {
         data: this.budgets

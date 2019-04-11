@@ -35,6 +35,7 @@ import { ServiceWorkerModule } from "@angular/service-worker";
 import { OfflineSyncComponent } from './offline-sync/offline-sync.component';
 import { environment } from "../environments/environment";
 import { IncomeFormComponent } from './income-form/income-form.component';
+import { SavingsComponent } from './savings/savings.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { IncomeFormComponent } from './income-form/income-form.component';
     ActionComponent,
     GmapComponent,
     OfflineSyncComponent,
-    IncomeFormComponent
+    IncomeFormComponent,
+    SavingsComponent
   ],
   entryComponents: [BottomSheetBudget],
   imports: [
