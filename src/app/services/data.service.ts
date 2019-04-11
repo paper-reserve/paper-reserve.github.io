@@ -3,7 +3,8 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import * as moment from "moment";
 import { NgForage, Driver, NgForageConfig, NgForageCache } from "ngforage";
 import * as uuid from "uuid";
-import { Observable, of } from "rxjs";
+import { of } from "rxjs";
+import { Observable } from "rxjs/Rx";
 @Injectable({
   providedIn: "root"
 })
@@ -72,7 +73,15 @@ export class DataService {
       ].join("|||");
       let WRITE_URL =
         "https://script.google.com/macros/s/AKfycbzp29Qzo_oLjAgi2UnhkRDl798lXFiU99Jy-aqXIuuE8NF0Ejlq/exec?row=";
-      return this.http.get(WRITE_URL + data);
+      return this.http
+        .get(WRITE_URL + data)
+        .timeout(20000)
+        .catch(error => {
+          let details = error;
+          this.ngf.setItem(uuid.v4(), offlinePostData);
+          return of("Stored Offline");
+          return Observable.throw(new Error(details));
+        });
     }
   }
 

@@ -152,10 +152,23 @@
     <mat-progress-bar mode="query"></mat-progress-bar>
     <mat-list>
       <mat-list-item>
-        <h4 mat-line>
-          {{ this.mode == "update" ? "Updating " : "Inserting " }} the
-          transaction
-        </h4>
+        <span>
+          <mat-progress-spinner
+            [diameter]="20"
+            [strokeWidth]="2"
+            color="primary"
+            mode="determinate"
+            [value]="spinnerVal"
+          >
+          </mat-progress-spinner>
+        </span>
+
+        <span>
+          <h4 mat-line>
+            {{ this.mode == "update" ? " Updating " : " Inserting " }} the
+            transaction
+          </h4>
+        </span>
       </mat-list-item>
       <mat-list-item>
         <mat-icon mat-list-icon>₹</mat-icon>

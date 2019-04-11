@@ -112,6 +112,8 @@ export class TransactionComponent {
   trans_id;
   transaction;
   fetching = false;
+  spinner = 0;
+  spinnerVal = 0;
   mode = "create";
 
   ngOnInit() {
@@ -271,14 +273,26 @@ export class TransactionComponent {
     });
   }
 
+  loadingSpinner() {
+    setTimeout(() => {
+      if (this.spinner < 20) {
+        this.spinner = this.spinner + 1;
+        this.spinnerVal = (this.spinner / 20) * 100;
+        this.loadingSpinner();
+      }
+    }, 1000);
+  }
+
   onSubmit(post) {
     this.post = post;
     post.location = this.geoLocation;
     post.comments = this.comments;
     let msg;
+    this.loadingSpinner();
     this.data
       .writeTransaction(post, this.mode, this.trans_id)
       .subscribe(data => {
+        this.spinnerVal = 100;
         if (data === "Stored Offline") {
           this.router.navigate(["/offline_sync"]);
           msg = "Stored Offline";
