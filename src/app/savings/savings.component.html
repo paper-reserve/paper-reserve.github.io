@@ -23,4 +23,20 @@
       </tr>
     </table>
   </mat-expansion-panel>
+  <mat-expansion-panel (opened)="!this.lics.length ? this.getLic() : null">
+    <mat-expansion-panel-header>
+      <mat-panel-title> LIC </mat-panel-title>
+      <mat-panel-description class="center"> Policy Details </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-tab-group dynamicHeight>
+      <mat-tab *ngFor="let lic of lics" label="{{lic['PolicyNumber']}}">
+        <table class="lic">
+          <tr *ngFor="let key of licHeaders">
+            <td>{{ key }}</td>
+            <td>{{ lic[key] }}</td>
+          </tr>
+        </table>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-expansion-panel>
 </mat-accordion>
