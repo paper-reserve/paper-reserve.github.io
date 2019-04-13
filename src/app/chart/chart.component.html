@@ -1,7 +1,10 @@
-<button mat-button (click)="groupBubble()" *ngIf="!grouped" class="chartBtn">
-  <mat-icon>lens</mat-icon>
-</button>
-<button mat-button (click)="splitBubble()" *ngIf="grouped" class="chartBtn">
-  <mat-icon>bubble_chart</mat-icon>
-</button>
+<mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
+<span *ngIf="!loading">
+  <button mat-button (click)="groupBubble()" *ngIf="!grouped" class="chartBtn">
+    <mat-icon>lens</mat-icon>
+  </button>
+  <button mat-button (click)="splitBubble()" *ngIf="grouped" class="chartBtn">
+    <mat-icon>bubble_chart</mat-icon>
+  </button>
+</span>
 <div id="expensesBubble"></div>

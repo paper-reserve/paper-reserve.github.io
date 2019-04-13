@@ -26,6 +26,7 @@ export class ChartComponent implements OnInit {
       .append("svg")
       .attr("width", 375)
       .attr("height", 800);
+    this.loading = true;
     this.data.getTransactions(this.monthFltr).subscribe(data => {
       this.transactions = data;
       let expenses = this.transactions.expenses;
@@ -53,6 +54,7 @@ export class ChartComponent implements OnInit {
           value: _.sumBy(category, "value")
         }))
         .value();
+      this.loading = false;
       this.splitBubble();
     });
   }
@@ -221,23 +223,71 @@ export class ChartComponent implements OnInit {
       d.fx = null;
       d.fy = null;
     }
-    // let size = 20;
-    // let allgroups = ["Asia", "Europe", "Americas", "Africa", "Oceania"];
-    // this.svg
-    //   .append("g")
-    //   .selectAll("myrect")
-    //   .data(allgroups)
-    //   .enter()
-    //   .append("circle")
-    //   .attr("cx", 390)
-    //   .attr("cy", function(d, i) {
-    //     return 10 + i * (size + 5);
-    //   }) // 100 is where the first dot appears. 25 is the distance between dots
-    //   .attr("r", 7)
-    //   .style("fill", function(d) {
-    //     return color(d);
-    //   });
-    // .on("mouseover", highlight)
-    // .on("mouseleave", noHighlight);
+    let legend = this.svg
+      .selectAll(".legend")
+      .data(_.sortBy(_.uniq(_.map(this.csvData, "category"))))
+      .enter()
+      .append("g")
+      .attr("class", "legend")
+      .attr("transform", "translate(" + 180 + "," + 80 + ")");
+    legend
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", function(d, i) {
+        return 20 * i;
+      })
+      .attr("width", 15)
+      .attr("height", 15)
+      .style("fill", function(d) {
+        return color(d);
+      });
+    legend
+      .append("text")
+      .attr("x", 25)
+      .attr("text-anchor", "start")
+      .attr("dy", "1em")
+      .attr("y", function(d, i) {
+        return 20 * i;
+      })
+      .text(function(d) {
+        return d;
+      })
+      .attr("font-size", "12px");
+    let selectedLegend = null;
+    legend.on(
+      "click",
+      function(type) {
+        // dim all of the icons in legend
+        d3.selectAll(".legend").style("opacity", 0.1);
+        // make the one selected be un-dimmed
+        d3.select(this).style("opacity", 1);
+        if (type !== selectedLegend) {
+          d3.selectAll(".node")
+            .transition()
+            .duration(500)
+            .style("opacity", 0.0)
+            .filter(function(d) {
+              selectedLegend = type;
+              return d["category"] == type;
+            })
+            .style("opacity", 1); // need this line to unhide dots
+        } else {
+          selectedLegend = null;
+          d3.selectAll(".node")
+            .transition()
+            .duration(500)
+            .style("opacity", 1);
+          d3.selectAll(".legend").style("opacity", 1);
+        }
+      },
+      this
+    );
+    legend
+      .append("text")
+      .attr("x", 31)
+      .attr("dy", "-.2em")
+      .attr("y", -10)
+      .text("CATEGORY")
+      .attr("font-size", "17px");
   }
 }
