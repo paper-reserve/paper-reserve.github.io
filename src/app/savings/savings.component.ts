@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
 import { DataService } from "../services/data.service";
+import * as moment from "moment";
 import * as d3 from "d3";
+import * as _ from "lodash";
 
 @Component({
   selector: "app-savings",
@@ -15,60 +17,79 @@ export class SavingsComponent implements OnInit {
   headers = [];
   licHeaders = [];
   loading = false;
-  csvData;
+  transactions;
+  groupData = [];
+  splitData = [];
+  csvData = [];
+  grouped = false;
   svg;
   constructor(private data: DataService) {}
-
+  monthFltr = moment().format("MMMM YYYY");
   ngOnInit() {
-    this.csvData = [
-      {
-        category: "Savings",
-        value: "17600"
-      },
-      {
-        category: "Food",
-        value: "5200"
-      },
-      {
-        category: "Groceries",
-        value: "5600"
-      },
-      {
-        category: "Travel",
-        value: "6300"
-      },
-      {
-        category: "Misc.",
-        value: "3000"
-      }
-    ];
     this.svg = d3
-      .select("#my_dataviz")
+      .select("#expensesBubble")
       .append("svg")
-      .attr("width", 450)
-      .attr("height", 450);
+      .attr("width", 375)
+      .attr("height", 800);
+    this.data.getTransactions(this.monthFltr).subscribe(data => {
+      this.transactions = data;
+      let expenses = this.transactions.expenses;
+      expenses.forEach(function(expense, i) {
+        let temp = {
+          category: expense[4],
+          subCat: expense[1],
+          value: expense[2]
+        };
+        this.splitData.push(temp);
+      }, this);
+      this.groupData = _(this.splitData)
+        .groupBy("category")
+        .map((category, id) => ({
+          category: id,
+          subCat: _.uniq(_.map(category, "subCat")),
+          value: _.sumBy(category, "value")
+        }))
+        .value();
+      this.splitBubble();
+    });
   }
-  ngAfterContentInit() {
+  splitBubble() {
+    this.csvData = this.splitData;
+    this.grouped = false;
+    this.svg.selectAll("*").remove();
+    this.drawChart();
+  }
+  groupBubble() {
+    this.csvData = this.groupData;
+    this.grouped = true;
+    this.svg.selectAll("*").remove();
+    this.drawChart();
+  }
+  drawChart() {
     d3.select("p").style("color", "red");
-    let width = 450;
-    let height = 450;
+    let width = 375;
+    let height = 810;
 
     let color = d3
       .scaleOrdinal()
-      .domain(["Savings", "Groceries", "Travel", "Misc.", "Food"])
+      .domain(_.uniq(_.map(this.csvData, "category")))
       .range(d3.schemeSet1);
 
     // Size scale for categories
     let size = d3
       .scaleLinear()
-      .domain([0, 20000])
-      .range([7, 55]); // circle will be between 7 and 55 px wide
+      .domain([
+        _.min(_.map(this.csvData, "value")),
+        _.max(_.map(this.csvData, "value"))
+      ])
+      .range([7, 40]); // circle will be between 7 and 55 px wide
 
     // create a tooltip
     let Tooltip = d3
-      .select("#my_dataviz")
+      .select("#expensesBubble")
       .append("div")
       .style("opacity", 0)
+      .style("display", "none")
       .attr("class", "tooltip")
       .style("background-color", "white")
       .style("border", "solid")
@@ -78,15 +99,29 @@ export class SavingsComponent implements OnInit {
 
     // Three function that change the tooltip when user hover / move / leave a cell
     let mouseover = function(d) {
-      Tooltip.style("opacity", 1);
+      Tooltip.style("display", "block");
     };
     let mousemove = function(d) {
-      Tooltip.html("<u>" + d.category + "</u>" + "<br>" + d.value + " %")
+      let subCatArr = [];
+      if (typeof d.subCat === "string") d.subCat = [d.subCat];
+      d.subCat.forEach(function(subCat, i) {
+        let temp = "<mat-chip class='chip-color'>" + subCat + "</mat-chip>";
+        subCatArr.push(temp);
+      });
+      Tooltip.html(
+        "<strong>" +
+          d.category +
+          "</strong><br><mat-chip-list>" +
+          subCatArr.join("") +
+          "</mat-chip-list>" +
+          "<br>₹ " +
+          d.value
+      )
         .style("left", d3.mouse(this)[0] + 20 + "px")
         .style("top", d3.mouse(this)[1] + "px");
     };
     let mouseleave = function(d) {
-      Tooltip.style("opacity", 0);
+      Tooltip.style("display", "none");
     };
 
     // Initialize the circle: all located at the center of the svg area
@@ -122,22 +157,36 @@ export class SavingsComponent implements OnInit {
     simulation = d3
       .forceSimulation()
       .force(
+        "forceX",
+        d3
+          .forceX()
+          .strength(0.1)
+          .x(width * 0.5)
+      )
+      .force(
+        "forceY",
+        d3
+          .forceY()
+          .strength(0.1)
+          .y(height * 0.5)
+      )
+      .force(
         "center",
         d3
           .forceCenter()
-          .x(width / 2)
-          .y(height / 2)
-      ) // Attraction to the center of the svg area
-      .force("charge", d3.forceManyBody().strength(0.1)) // Nodes are attracted one each other of value is > 0
+          .x(width * 0.5)
+          .y(height * 0.5)
+      )
+      .force("charge", d3.forceManyBody())
       .force(
         "collide",
         d3
           .forceCollide()
-          .strength(0.2)
+          .strength(3)
           .radius(function(d) {
             let d1: any;
             d1 = d;
-            return size(d1.value) + 3;
+            return size(d1.value);
           })
           .iterations(1)
       ); // Force that avoids circle overlapping

@@ -19,3 +19,21 @@ td {
 .lic td {
   width: 200px;
 }
+.tooltip {
+  position: absolute;
+  background-color: black !important;
+  color: white;
+  width: auto;
+  opacity: 0.6 !important;
+  border: none !important;
+}
+.tooltip u {
+  text-decoration: none;
+}
+.chip-color {
+  background: blue;
+  border-radius: 10px;
+  padding: 2px;
+  margin: 2px;
+  line-height: 10px;
+}

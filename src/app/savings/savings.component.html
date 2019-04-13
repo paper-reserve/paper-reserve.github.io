@@ -1,6 +1,14 @@
 <mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
-<div id="my_dataviz" #my_dataviz></div>
+
 <mat-accordion>
+  <mat-expansion-panel (opened)="splitBubble()">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Bubble Chart </mat-panel-title>
+    </mat-expansion-panel-header>
+    <button mat-button (click)="groupBubble()" *ngIf="!grouped">Group</button>
+    <button mat-button (click)="splitBubble()" *ngIf="grouped">Split</button>
+    <div id="expensesBubble"></div>
+  </mat-expansion-panel>
   <mat-expansion-panel
     (opened)="!this.instalments.length ? this.getInstalments() : null"
   >
@@ -26,7 +34,9 @@
   <mat-expansion-panel (opened)="!this.lics.length ? this.getLic() : null">
     <mat-expansion-panel-header>
       <mat-panel-title> LIC </mat-panel-title>
-      <mat-panel-description class="center"> Policy Details </mat-panel-description>
+      <mat-panel-description class="center">
+        Policy Details
+      </mat-panel-description>
     </mat-expansion-panel-header>
     <mat-tab-group dynamicHeight>
       <mat-tab *ngFor="let lic of lics" label="{{lic['PolicyNumber']}}">
