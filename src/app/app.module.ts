@@ -36,6 +36,7 @@ import { OfflineSyncComponent } from './offline-sync/offline-sync.component';
 import { environment } from "../environments/environment";
 import { IncomeFormComponent } from './income-form/income-form.component';
 import { SavingsComponent } from './savings/savings.component';
+import { ChartComponent } from './chart/chart.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { SavingsComponent } from './savings/savings.component';
     GmapComponent,
     OfflineSyncComponent,
     IncomeFormComponent,
-    SavingsComponent
+    SavingsComponent,
+    ChartComponent
   ],
   entryComponents: [BottomSheetBudget],
   imports: [

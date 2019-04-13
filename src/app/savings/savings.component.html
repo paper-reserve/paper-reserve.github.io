@@ -1,14 +1,6 @@
 <mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
 
 <mat-accordion>
-  <mat-expansion-panel (opened)="splitBubble()">
-    <mat-expansion-panel-header>
-      <mat-panel-title> Bubble Chart </mat-panel-title>
-    </mat-expansion-panel-header>
-    <button mat-button (click)="groupBubble()" *ngIf="!grouped">Group</button>
-    <button mat-button (click)="splitBubble()" *ngIf="grouped">Split</button>
-    <div id="expensesBubble"></div>
-  </mat-expansion-panel>
   <mat-expansion-panel
     (opened)="!this.instalments.length ? this.getInstalments() : null"
   >

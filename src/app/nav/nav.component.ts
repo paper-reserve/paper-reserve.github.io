@@ -22,6 +22,10 @@ export class NavComponent implements OnInit {
       link: "/transactions"
     },
     {
+      icon: "bubble_chart",
+      link: "/chart"
+    },
+    {
       icon: "map",
       link: "/gmap"
     },
