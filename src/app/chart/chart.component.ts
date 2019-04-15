@@ -15,8 +15,10 @@ export class ChartComponent implements OnInit {
   transactions;
   groupData = [];
   splitData = [];
+  smallData = [];
   csvData = [];
   grouped = false;
+  small = false;
   svg;
   constructor(private data: DataService) {}
   monthFltr = moment().format("MMMM YYYY");
@@ -34,10 +36,14 @@ export class ChartComponent implements OnInit {
         let temp = {
           category: expense[4],
           subCat: expense[1],
-          value: expense[2]
+          value: expense[2],
+          comments: expense[5]
         };
         this.splitData.push(temp);
       }, this);
+      this.smallData = _.filter(this.splitData, function(data) {
+        return data.value < 1000;
+      });
       this.splitData = _(this.splitData)
         .groupBy("subCat")
         .map((subCat, id) => ({
@@ -58,15 +64,23 @@ export class ChartComponent implements OnInit {
       this.splitBubble();
     });
   }
+  smallBubble() {
+    this.csvData = this.smallData;
+    this.small = true;
+    this.svg.selectAll("*").remove();
+    this.drawChart();
+  }
   splitBubble() {
     this.csvData = this.splitData;
     this.grouped = false;
+    this.small = false;
     this.svg.selectAll("*").remove();
     this.drawChart();
   }
   groupBubble() {
     this.csvData = this.groupData;
     this.grouped = true;
+    this.small = false;
     this.svg.selectAll("*").remove();
     this.drawChart();
   }
@@ -80,13 +94,14 @@ export class ChartComponent implements OnInit {
       .domain(_.uniq(_.map(this.csvData, "category")))
       .range(d3.schemeSet1);
     // Size scale for categories
+    let range = this.small ? [5, 10] : [10, 50];
     let size = d3
       .scaleLinear()
       .domain([
         _.min(_.map(this.csvData, "value")),
         _.max(_.map(this.csvData, "value"))
       ])
-      .range([10, 50]);
+      .range(range);
 
     // create a tooltip
     let Tooltip = d3
@@ -95,7 +110,8 @@ export class ChartComponent implements OnInit {
       .style("display", "none")
       .attr("class", "tooltip")
       .style("border-radius", "5px")
-      .style("padding", "5px");
+      .style("padding", "5px")
+      .style("font-size", "14px");
 
     // Three function that change the tooltip when user hover / move / leave a cell
     let mouseover = function(d) {
@@ -108,6 +124,7 @@ export class ChartComponent implements OnInit {
         let temp = "<li>" + subCat + "</li>";
         subCatArr.push(temp);
       });
+      let comments = d.comments ? d.comments : "";
       Tooltip.html(
         "<strong>" +
           d.category +
@@ -116,7 +133,9 @@ export class ChartComponent implements OnInit {
           "</strong>" +
           "<br><ul>" +
           subCatArr.join("") +
-          "</ul>"
+          "</ul><div>" +
+          comments +
+          "</div>"
       )
         .style("left", d3.mouse(this)[0] + 20 + "px")
         .style("top", d3.mouse(this)[1] + "px");
@@ -264,7 +283,8 @@ export class ChartComponent implements OnInit {
         if (type !== selectedLegend) {
           d3.selectAll(".node")
             .transition()
-            .duration(500)
+            .ease(d3.easeLinear)
+            .duration(1000)
             .style("opacity", 0.0)
             .filter(function(d) {
               selectedLegend = type;
@@ -275,7 +295,7 @@ export class ChartComponent implements OnInit {
           selectedLegend = null;
           d3.selectAll(".node")
             .transition()
-            .duration(500)
+            .duration(1000)
             .style("opacity", 1);
           d3.selectAll(".legend").style("opacity", 1);
         }

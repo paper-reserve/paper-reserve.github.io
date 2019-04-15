@@ -1,6 +1,11 @@
 .chartBtn {
   top: 30%;
   left: 80%;
+  position: fixed;
+}
+.chartBtnSmall {
+  top: 5%;
+  left: 42%;
   position: absolute;
 }
 .tooltip {
