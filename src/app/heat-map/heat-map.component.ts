@@ -14,38 +14,65 @@ export class HeatMapComponent implements OnInit {
   loading = false;
   allTransactions;
   heatMapData = [];
+  small = true;
   svg;
   constructor(private data: DataService) {}
   monthFltr = moment().format("MMMM YYYY");
   ngOnInit() {
-    this.heatMapChart();
+    this.getAllMonthTransactions();
   }
-  heatMapChart() {
+  getAllMonthTransactions() {
     this.loading = true;
     this.data.getAllMonthTransactions().subscribe(data => {
       this.allTransactions = data;
-      let expenses = this.allTransactions.expenses;
-      this.heatMapData = [];
-      expenses.forEach(function(expense, i) {
+      this.smallHeatMapChart();
+      this.loading = false;
+    });
+  }
+  heatMapChart() {
+    this.small = false;
+    let expenses = this.allTransactions.expenses;
+    let heatMapData = [];
+    expenses.forEach(function(expense, i) {
+      let heatTemp = {
+        day: moment(expense[0]).format("YYYY-MM-DD"),
+        count: expense[2]
+      };
+      heatMapData.push(heatTemp);
+    }, this);
+    heatMapData = _(heatMapData)
+      .groupBy("day")
+      .map((day, id) => ({
+        day: id,
+        count: _.sumBy(day, "count")
+      }))
+      .value();
+    this.drawHeatMap(heatMapData);
+  }
+  smallHeatMapChart() {
+    this.small = true;
+    let expenses = this.allTransactions.expenses;
+    let heatMapData = [];
+    expenses.forEach(function(expense, i) {
+      if (expense[2] < 6500) {
         let heatTemp = {
           day: moment(expense[0]).format("YYYY-MM-DD"),
           count: expense[2]
         };
-        this.heatMapData.push(heatTemp);
-      }, this);
-      this.heatMapData = _(this.heatMapData)
-        .groupBy("day")
-        .map((day, id) => ({
-          day: id,
-          count: _.sumBy(day, "count")
-        }))
-        .value();
-      this.loading = false;
-      this.drawHeatMap();
-    });
+        heatMapData.push(heatTemp);
+      }
+    }, this);
+    heatMapData = _(heatMapData)
+      .groupBy("day")
+      .map((day, id) => ({
+        day: id,
+        count: _.sumBy(day, "count")
+      }))
+      .value();
+    this.drawHeatMap(heatMapData);
   }
-  drawHeatMap() {
-    let dateData = this.heatMapData;
+  drawHeatMap(heatMapData) {
+    let dateData = heatMapData;
     var weeksInMonth = function(month) {
       var m = d3.timeMonth.floor(month);
       return d3.timeWeeks(d3.timeWeek.floor(m), d3.timeMonth.offset(m, 1))
@@ -67,6 +94,10 @@ export class HeatMapComponent implements OnInit {
       titleFormat = d3.utcFormat("%a, %d-%b"),
       monthName = d3.timeFormat("%B %y"),
       months = d3.timeMonth.range(d3.timeMonth.floor(minDate), maxDate);
+    d3.select("#heatMap")
+      .selectAll("*")
+      .remove();
+
     let svg = d3
       .select("#heatMap")
       .selectAll("svg")
@@ -124,11 +155,11 @@ export class HeatMapComponent implements OnInit {
     });
     var lookup = d3
       .nest()
-      .key(function(d:any) {
+      .key(function(d: any) {
         return d.day;
       })
-      .rollup(function(leaves:any) :any{
-        return d3.sum(leaves, function(d:any) {
+      .rollup(function(leaves: any): any {
+        return d3.sum(leaves, function(d: any) {
           return parseInt(d.count);
         });
       })
@@ -149,7 +180,7 @@ export class HeatMapComponent implements OnInit {
       .attr("class", "tooltip")
       .style("border-radius", "5px")
       .style("padding", "5px")
-      .style("font-size", "10px");
+      .style("font-size", "18px");
 
     // Three function that change the tooltip when user hover / move / leave a cell
     let mouseover = function(d) {
@@ -159,15 +190,19 @@ export class HeatMapComponent implements OnInit {
     let mousemove = function(d) {
       d = moment(d).format("YYYY-MM-DD");
       d3.select(this).classed("hover", true);
+      let amount = lookup[d] ? lookup[d] : 0;
       Tooltip.html(
         "<strong>" +
           moment(d).format("ddd DD-MM-YY") +
-          "<span class='green'> ₹ " +
-          lookup[d] +
+          "<span class='green' href=/tansactions?date=" +
+          d +
+          "> ₹ " +
+          amount +
           "</span></strong>"
       )
-        .style("left", "39%")
-        .style("top", "44px");
+        .style("left", "15%")
+        .style("top", "2px")
+        .style("margin", "5px");
     };
     let mouseleave = function(d) {
       d3.select(this).classed("hover", false);
@@ -217,7 +252,7 @@ export class HeatMapComponent implements OnInit {
         return titleFormat(new Date(d)) + ":  " + lookup[d];
       });
   }
-  goto(){
+  goto() {
     alert();
   }
 }

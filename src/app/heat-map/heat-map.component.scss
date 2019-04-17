@@ -1,5 +1,5 @@
 .tooltip {
-  position: absolute;
+  position: fixed;
   background-color: black !important;
   color: white;
   width: auto;
@@ -7,9 +7,20 @@
   border: none !important;
 }
 .day.hover {
-  stroke: #6d6E70;
+  stroke: #6d6e70;
   stroke-width: 2;
 }
 #heatMap {
   margin: 8px;
+  margin-top: 50px;
+}
+.fixed {
+  position: fixed;
+}
+.header {
+  width: -webkit-fill-available;
+  margin-left: 5px;
+  background: white;
+  margin-top: -50px;
+  height: 50px;
 }

@@ -1,3 +1,17 @@
 <mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
-<h3 class="center" *ngIf="!loading">Expenses Calendar</h3>
+<div  *ngIf="!loading" class="fixed header">
+  <span>
+    <button
+      mat-button
+      (click)="smallHeatMapChart()"
+      *ngIf="!small"
+      class="chartBtn"
+    >
+      <mat-icon>filter_list</mat-icon>
+    </button>
+    <button mat-button (click)="heatMapChart()" *ngIf="small" class="chartBtn">
+      <mat-icon>format_align_justify</mat-icon>
+    </button>
+  </span>
+</div>
 <div id="heatMap"></div>
