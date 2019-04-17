@@ -9,6 +9,7 @@ import { OfflineSyncComponent } from "./offline-sync/offline-sync.component";
 import { IncomeFormComponent } from "./income-form/income-form.component";
 import { SavingsComponent } from "./savings/savings.component";
 import { ChartComponent } from "./chart/chart.component";
+import { HeatMapComponent } from './heat-map/heat-map.component';
 
 const routes: Routes = [
   { path: "", component: TransactionComponent },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: "gmap", component: GmapComponent },
   { path: "income", component: IncomeFormComponent },
   { path: "savings", component: SavingsComponent },
-  { path: "chart", component: ChartComponent }
+  { path: "chart", component: ChartComponent },
+  { path: "heatMap", component: HeatMapComponent }
 ];
 
 @NgModule({

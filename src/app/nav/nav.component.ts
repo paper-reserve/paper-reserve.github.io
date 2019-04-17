@@ -26,6 +26,10 @@ export class NavComponent implements OnInit {
       link: "/chart"
     },
     {
+      icon: "date_range",
+      link: "/heatMap"
+    },
+    {
       icon: "map",
       link: "/gmap"
     },

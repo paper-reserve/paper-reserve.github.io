@@ -1,0 +1,15 @@
+.tooltip {
+  position: absolute;
+  background-color: black !important;
+  color: white;
+  width: auto;
+  opacity: 0.6 !important;
+  border: none !important;
+}
+.day.hover {
+  stroke: #6d6E70;
+  stroke-width: 2;
+}
+#heatMap {
+  margin: 8px;
+}

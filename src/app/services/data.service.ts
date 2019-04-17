@@ -13,6 +13,8 @@ export class DataService {
     "https://script.google.com/macros/s/AKfycbzqbIwv3mExSH1I_kq3QiTiTvD85rXgI7uEWYnkjbe3JGJsnB0/exec";
   INFO_URL =
     "https://script.google.com/macros/s/AKfycbxb2XVYjTfM9CYNEvlpOHmj5QIR_-t3utN4gBMLwf1WLUNhPIs/exec";
+  ALL_URL =
+    "https://script.google.com/macros/s/AKfycby3u_bOMONedPTgSVXgQz457XN_OKDBw1vFO5rN/exec";
   constructor(
     private http: HttpClient,
     private readonly ngf: NgForage,
@@ -22,6 +24,9 @@ export class DataService {
     this.cache.driver = Driver.INDEXED_DB;
   }
 
+  getAllMonthTransactions() {
+    return this.http.get(this.ALL_URL);
+  }
   getTransactions(month) {
     return this.http.get(this.MAP_URL + "?isMap=true&sheet=" + month);
   }

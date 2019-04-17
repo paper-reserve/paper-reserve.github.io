@@ -37,6 +37,7 @@ import { environment } from "../environments/environment";
 import { IncomeFormComponent } from './income-form/income-form.component';
 import { SavingsComponent } from './savings/savings.component';
 import { ChartComponent } from './chart/chart.component';
+import { HeatMapComponent } from './heat-map/heat-map.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { ChartComponent } from './chart/chart.component';
     OfflineSyncComponent,
     IncomeFormComponent,
     SavingsComponent,
-    ChartComponent
+    ChartComponent,
+    HeatMapComponent
   ],
   entryComponents: [BottomSheetBudget],
   imports: [
