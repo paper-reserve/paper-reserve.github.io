@@ -16,10 +16,19 @@ export class HeatMapComponent implements OnInit {
   heatMapData = [];
   small = true;
   svg;
+  selectedDate = null;
   constructor(private data: DataService) {}
   monthFltr = moment().format("MMMM YYYY");
   ngOnInit() {
     this.getAllMonthTransactions();
+    this.checkSelectedDate();
+    localStorage.removeItem("heatmapd");
+  }
+  checkSelectedDate() {
+    this.selectedDate = localStorage.getItem("heatmapd");
+    setTimeout(() => {
+      this.checkSelectedDate();
+    }, 500);
   }
   getAllMonthTransactions() {
     this.loading = true;
@@ -79,10 +88,10 @@ export class HeatMapComponent implements OnInit {
         .length;
     };
 
-    var minDate = d3.min(dateData, function(d) {
+    var minDate = d3.min(dateData, function(d: any) {
       return new Date(d.day);
     });
-    var maxDate = d3.max(dateData, function(d) {
+    var maxDate = d3.max(dateData, function(d: any) {
       return new Date(d.day);
     });
     var cellMargin = 2,
@@ -168,7 +177,7 @@ export class HeatMapComponent implements OnInit {
     var scale = d3
       .scaleLinear()
       .domain(
-        d3.extent(dateData, function(d) {
+        d3.extent(dateData, function(d: any) {
           return parseInt(d.count);
         })
       )
@@ -191,6 +200,7 @@ export class HeatMapComponent implements OnInit {
       d = moment(d).format("YYYY-MM-DD");
       d3.select(this).classed("hover", true);
       let amount = lookup[d] ? lookup[d] : 0;
+      localStorage.setItem("heatmapd", d);
       Tooltip.html(
         "<strong>" +
           moment(d).format("ddd DD-MM-YY") +
@@ -251,8 +261,5 @@ export class HeatMapComponent implements OnInit {
       .text(function(d) {
         return titleFormat(new Date(d)) + ":  " + lookup[d];
       });
-  }
-  goto() {
-    alert();
   }
 }

@@ -201,10 +201,10 @@
       >
         <mat-icon>format_align_left</mat-icon>
       </button>
-      <button mat-button color="accent">
+      <button mat-button color="accent" class="medium">
         Total: {{ filteredExpenses | sumAmt | prependStr: "₹ " }}
       </button>
-      <button mat-button color="primary" *ngIf="monthFltr == currMonth">
+      <button mat-button color="primary" *ngIf="monthFltr == currMonth" class="medium">
         Today:
         {{
           transactions.expenses
@@ -220,7 +220,16 @@
           <mat-select
             [(value)]="monthFltr"
             class="center"
-            (selectionChange)="getTransactions()"
+            (selectionChange)="
+              getTransactions();
+              sourceFltr = '';
+              query = '';
+              dateStart = '';
+              dateEnd = '';
+              catFltr = '';
+              lowValue = 0;
+              highValue = 20000
+            "
           >
             <mat-option *ngFor="let month of pastMonths" [value]="month">
               {{ month }}

@@ -1,5 +1,5 @@
 <mat-progress-bar mode="query" *ngIf="loading"></mat-progress-bar>
-<div  *ngIf="!loading" class="fixed header">
+<div *ngIf="!loading" class="fixed header">
   <span>
     <button
       mat-button
@@ -13,5 +13,13 @@
       <mat-icon>format_align_justify</mat-icon>
     </button>
   </span>
+  <a
+    [routerLink]="['/transactions']"
+    [queryParams]="{ date: selectedDate }"
+    class="smallLink"
+    *ngIf="selectedDate"
+    >{{ selectedDate }}►</a
+  >
 </div>
+
 <div id="heatMap"></div>

@@ -7,6 +7,7 @@ import { MatSlideToggleChange } from "@angular/material";
 import { Options } from "ng5-slider";
 import { Lightbox } from "ngx-lightbox";
 import { LocalStorage } from "@ngx-pwa/local-storage";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-list",
@@ -94,12 +95,21 @@ export class ListComponent implements OnInit {
     private data: DataService,
     private bottomSheet: MatBottomSheet,
     private _lightbox: Lightbox,
-    protected localStorage: LocalStorage
+    protected localStorage: LocalStorage,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.setMonthSelector();
-    this.getTransactions();
+    this.route.queryParams.subscribe(params => {
+      if (params.date) {
+        this.monthFltr = moment(params.date).format("MMMM YYYY");
+        this.dateStart = new Date(params.date);
+        this.dateEnd = new Date(params.date);
+      }
+      this.setMonthSelector();
+      this.getTransactions();
+    });
+
     this.sortKey = "id";
     this.sortOrder = "desc";
     this.minDate = new Date(
@@ -129,7 +139,7 @@ export class ListComponent implements OnInit {
   setMonthSelector() {
     let maxPastMonth = "May 2018";
     let monthCount = 0;
-    let month = this.monthFltr;
+    let month = this.currMonth;
     while (month != maxPastMonth) {
       this.pastMonths.push(month);
       monthCount++;
@@ -160,10 +170,11 @@ export class ListComponent implements OnInit {
       });
       this.localStorage
         .setItem("autoCompletes", autoComplete)
-        .subscribe(data => {});
-    });
-    this.localStorage.getItem("autoCompletes").subscribe(data => {
-      if (data) this.autoCompletes = data.flat().reverse();
+        .subscribe(data => {
+          this.localStorage.getItem("autoCompletes").subscribe(data => {
+            if (data) this.autoCompletes = data.flat().reverse();
+          });
+        });
     });
   }
   imgOpen(src, caption) {
@@ -176,7 +187,7 @@ export class ListComponent implements OnInit {
   }
   getBudgets() {
     this.budgets = null;
-    this.data.getSheetInfo('Budget').subscribe(data => {
+    this.data.getSheetInfo("Budget").subscribe(data => {
       this.budgets = data;
       this.bottomSheet.open(BottomSheetBudget, {
         data: this.budgets
