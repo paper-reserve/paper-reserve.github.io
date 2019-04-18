@@ -110,6 +110,7 @@ export class IconStrPipe implements PipeTransform {
       Shopping: "shopping_cart",
       Entertainment: "toys",
       Payments: "receipt",
+      Medical: "local_hospital",
       "Misc.": "blur_on",
       Transactions: "swap_horiz"
     };

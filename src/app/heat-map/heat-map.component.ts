@@ -138,23 +138,25 @@ export class HeatMapComponent implements OnInit {
         return d3.timeDays(d, new Date(d.getFullYear(), d.getMonth() + 1, 1));
       })
       .enter()
-      .append("rect")
+      .append("circle")
       .attr("class", "day")
       .attr("width", cellSize)
       .attr("height", cellSize)
-      .attr("rx", 3)
-      .attr("ry", 3) // rounded corners
+      .attr("dx", 3)
+      .attr("dy", 3) // rounded corners
+      .attr("r", 10) // rounded corners
       .attr("fill", "#eaeaea") // default light grey fill
-      .attr("y", function(d) {
-        return +day(d) * cellSize + +day(d) * cellMargin + cellMargin; //extra + for number conversion
+      .attr("cy", function(d) {
+        return +day(d) * cellSize + +day(d) * cellMargin + cellMargin + 10; //extra + for number conversion
       })
-      .attr("x", function(d): number {
+      .attr("cx", function(d): number {
         return (
           (+week(d) - +week(new Date(d.getFullYear(), d.getMonth(), 1))) *
             cellSize +
           (+week(d) - +week(new Date(d.getFullYear(), d.getMonth(), 1))) *
             cellMargin +
-          cellMargin
+          cellMargin +
+          10
         );
       })
       .datum(format);
@@ -181,7 +183,9 @@ export class HeatMapComponent implements OnInit {
           return parseInt(d.count);
         })
       )
-      .range([0.4, 1]); // the interpolate used for color expects a number in the range [0,1] but i don't want the lightest part of the color scheme
+      .range([0.4, 1]);
+
+    
     let Tooltip = d3
       .select("#heatMap")
       .append("div")
@@ -232,10 +236,10 @@ export class HeatMapComponent implements OnInit {
       .text(function(d) {
         return moment(d).format("DD");
       })
-      .attr("fill", "white")
+      .attr("fill", "black")
       .style("font-size", "12px")
       .attr("y", function(d) {
-        return +day(d) * cellSize + +day(d) * cellMargin + cellMargin + 12;
+        return +day(d) * cellSize + +day(d) * cellMargin + cellMargin + 14;
       })
       .attr("x", function(d) {
         return (
@@ -244,7 +248,7 @@ export class HeatMapComponent implements OnInit {
           (+week(d) - +week(new Date(d.getFullYear(), d.getMonth(), 1))) *
             cellMargin +
           cellMargin +
-          2
+          4
         );
       });
     rect
@@ -252,7 +256,7 @@ export class HeatMapComponent implements OnInit {
         return d in lookup;
       })
       .style("fill", function(d) {
-        return d3.interpolateYlGn(scale(lookup[d]));
+        return d3.interpolateSinebow(scale(lookup[d]));
       })
       .on("mouseover", mouseover) // What to do when hovered
       .on("mousemove", mousemove)

@@ -14,19 +14,13 @@ export const formConsts = {
     "Travel",
     "Entertainment",
     "Payments",
+    "Medical",
     "Misc.",
     "Transactions"
   ],
   SUBCATS: {
     Food: ["Tea/Coffee", "Street Food", "Restaurants", "Snacks"],
-    Shopping: [
-      "Groceries",
-      "Cosmetics",
-      "Medicine",
-      "Dress",
-      "Accessories",
-      "Household"
-    ],
+    Shopping: ["Groceries", "Cosmetics", "Dress", "Accessories", "Household"],
     Travel: [
       "Bus",
       "Auto",
@@ -53,6 +47,7 @@ export const formConsts = {
       "Gas",
       "iWish"
     ],
+    Medical: ["Medicine", "Lab Test", "Consultation"],
     Transactions: [
       "Cash Withdraw",
       "To ICICI",
