@@ -32,6 +32,7 @@ export class ListComponent implements OnInit {
     "Shopping",
     "Entertainment",
     "Payments",
+    "Medical",
     "Misc.",
     "Transactions"
   ];

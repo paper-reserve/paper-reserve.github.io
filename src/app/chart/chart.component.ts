@@ -42,7 +42,7 @@ export class ChartComponent implements OnInit {
         this.splitData.push(temp);
       }, this);
       this.smallData = _.filter(this.splitData, function(data) {
-        return data.value < 1000;
+        return data.value < 6000;
       });
       this.splitData = _(this.splitData)
         .groupBy("subCat")
@@ -248,7 +248,7 @@ export class ChartComponent implements OnInit {
       .enter()
       .append("g")
       .attr("class", "legend")
-      .attr("transform", "translate(" + 180 + "," + 80 + ")");
+      .attr("transform", "translate(" + 180 + "," + 50 + ")");
     legend
       .append("rect")
       .attr("x", 0)
