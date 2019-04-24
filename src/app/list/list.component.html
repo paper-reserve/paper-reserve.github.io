@@ -201,10 +201,11 @@
       >
         <mat-icon>format_align_left</mat-icon>
       </button>
-      <button mat-button color="accent" class="medium">
+      <span class="small">
         Total: {{ filteredExpenses | sumAmt | prependStr: "₹ " }}
-      </button>
-      <button mat-button color="primary" *ngIf="monthFltr == currMonth" class="medium">
+      </span>
+      &nbsp;&nbsp;
+      <span *ngIf="monthFltr == currMonth" class="small green">
         Today:
         {{
           transactions.expenses
@@ -212,7 +213,7 @@
             | sumAmt: "today"
             | prependStr: "₹ "
         }}
-      </button>
+      </span>
 
       <div class="center">
         <mat-form-field>
