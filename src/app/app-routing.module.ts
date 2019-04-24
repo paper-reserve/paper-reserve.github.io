@@ -9,10 +9,11 @@ import { OfflineSyncComponent } from "./offline-sync/offline-sync.component";
 import { IncomeFormComponent } from "./income-form/income-form.component";
 import { SavingsComponent } from "./savings/savings.component";
 import { ChartComponent } from "./chart/chart.component";
-import { HeatMapComponent } from './heat-map/heat-map.component';
+import { HeatMapComponent } from "./heat-map/heat-map.component";
 
 const routes: Routes = [
-  { path: "", component: TransactionComponent },
+  { path: "", redirectTo: "/add", pathMatch: 'full' },
+  { path: "add", component: TransactionComponent },
   { path: "transactions/:id/show", component: ActionComponent },
   { path: "transactions/:id/edit", component: TransactionComponent },
   { path: "transactions", component: ListComponent },

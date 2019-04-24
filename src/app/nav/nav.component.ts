@@ -15,7 +15,7 @@ export class NavComponent implements OnInit {
   fabButtons = [
     {
       icon: "playlist_add",
-      link: "/"
+      link: "/add"
     },
     {
       icon: "list",

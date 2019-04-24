@@ -18,19 +18,18 @@
 
   <mat-icon [@speedDialStagger] color="warn" *ngIf="!online">cloud</mat-icon>
   <mat-icon [@speedDialStagger] color="primary" *ngIf="online">cloud</mat-icon>
-
   <div [@speedDialStagger]="buttons.length" *ngFor="let btn of buttons">
-    <button
+    <a
+      routerLink="{{btn.link}}"
+      (click)="onToggleFab()"
       *ngIf="btn.link"
+      [routerLinkActive]="'selected-fab'"
       mat-mini-fab
       class="fab-secondary"
       color="secondary"
-      (click)="onToggleFab()"
     >
-      <a routerLink="{{btn.link}}"
-        ><mat-icon>{{ btn.icon }}</mat-icon></a
-      >
-    </button>
+      <mat-icon>{{ btn.icon }}</mat-icon>
+    </a>
     <button
       *ngIf="!btn.link"
       mat-mini-fab
