@@ -5,7 +5,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
 import { NavComponent } from "./nav/nav.component";
-import { TransactionComponent } from "./transaction/transaction.component";
+import { TransactionComponent, TodoSheet } from "./transaction/transaction.component";
 import { ListComponent, BottomSheetBudget } from "./list/list.component";
 
 import { HttpClientModule } from "@angular/common/http";
@@ -56,6 +56,7 @@ import { HeatMapComponent } from './heat-map/heat-map.component';
     IsTodayPipe,
     ArrayStringFilterPipe,
     TransactionComponent,
+    TodoSheet,
     ActionComponent,
     GmapComponent,
     OfflineSyncComponent,
@@ -64,7 +65,7 @@ import { HeatMapComponent } from './heat-map/heat-map.component';
     ChartComponent,
     HeatMapComponent
   ],
-  entryComponents: [BottomSheetBudget],
+  entryComponents: [BottomSheetBudget, TodoSheet],
   imports: [
     BrowserModule,
     AppRoutingModule,

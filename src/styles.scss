@@ -132,3 +132,10 @@ body {
 .range-date {
   background: #b7e1cd;
 }
+.mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background,
+.mat-checkbox-disabled.mat-checkbox-indeterminate .mat-checkbox-background {
+  background: #6fa8dc !important;
+}
+.mat-checkbox-disabled .mat-checkbox-label{
+  color: black !important;
+}

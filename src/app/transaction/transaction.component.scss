@@ -1,17 +1,16 @@
 .form-element {
   padding: 15px 5px 0px 0px;
   width: 80%;
-  margin-left:40px;
+  margin-left: 40px;
 }
-.form-element button{
+.form-element button {
   float: right;
 }
 .loadingImage {
-  background: url('/assets/loadingImage.svg');
+  background: url("/assets/loadingImage.svg");
   background-repeat: no-repeat;
   background-size: 50px 50px;
 }
-
 
 .fab-container {
   position: fixed;

@@ -105,6 +105,7 @@ export const formConsts = {
     ToHome: ["Cash", "Travel", "Bus", "🚍", "green", "🏢-🏡"],
     Bus: ["Cash", "Travel", "Bus", "🚍", "green", ""],
     Peanuts: ["Cash", "Food", "Snacks", "🥜", "lightbrown", "🥜"],
-    Reset: ["", "", "", "⟲", "grey", null]
+    Reset: ["", "", "", "⟲", "grey", null],
+    Todo: ["", "", "", "☑", "lightbrown", null]
   }
 };

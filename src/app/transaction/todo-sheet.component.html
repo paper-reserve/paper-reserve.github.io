@@ -1,0 +1,21 @@
+<div *ngIf="!todos" classc="loading">
+  <mat-progress-bar mode="buffer"></mat-progress-bar>
+  <div class="center">Getting Todos</div>
+  <mat-progress-bar mode="buffer"></mat-progress-bar>
+</div>
+<mat-list *ngIf="todos">
+  <mat-list-item *ngFor="let todo of formattedTodos">
+    <mat-checkbox
+      class="form-element"
+      [(ngModel)]="todo.status"
+      [indeterminate]="indeterminate"
+      [labelPosition]="before"
+      disabled="true"
+      color="primary"
+      class="green"
+      (click)="todo.status ? completedTodo(todo.name) : fillForm(todo.data)"
+    >
+      {{ todo.name }} ➤
+    </mat-checkbox>
+  </mat-list-item>
+</mat-list>

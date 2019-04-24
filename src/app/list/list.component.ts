@@ -107,6 +107,9 @@ export class ListComponent implements OnInit {
         this.dateStart = new Date(params.date);
         this.dateEnd = new Date(params.date);
       }
+      if(params.query){
+        this.query = params.query;
+      }
       this.setMonthSelector();
       this.getTransactions();
     });

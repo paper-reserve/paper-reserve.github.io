@@ -17,7 +17,7 @@ export class FilterPipe implements PipeTransform {
         break;
       }
       case "search": {
-        if (query.length <= 2) return items;
+        if (query.length <= 1) return items;
         return items.filter(it => {
           return (
             it[5].toLowerCase().includes(query.toLowerCase()) ||

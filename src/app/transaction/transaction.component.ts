@@ -1,4 +1,10 @@
-import { Component, ViewChild, ElementRef } from "@angular/core";
+import {
+  Component,
+  ViewChild,
+  ElementRef,
+  Inject,
+  EventEmitter
+} from "@angular/core";
 import { DataService } from "../services/data.service";
 import { Router, ActivatedRoute } from "@angular/router";
 import * as moment from "moment";
@@ -8,6 +14,12 @@ import { MatChipInputEvent } from "@angular/material";
 import { formConsts } from "../consts/form.consts";
 import { navAnimations } from "../nav/nav.animations";
 import { MatSnackBar } from "@angular/material";
+import {
+  MatBottomSheet,
+  MatBottomSheetRef,
+  MAT_BOTTOM_SHEET_DATA
+} from "@angular/material";
+
 import {
   FormBuilder,
   FormGroup,
@@ -30,9 +42,49 @@ export class TransactionComponent {
     private router: Router,
     private route: ActivatedRoute,
     protected localStorage: LocalStorage,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private todoSheet: MatBottomSheet
   ) {}
 
+  //todo
+  todos;
+  openTodo(): void {
+    this.todoSheet.open(TodoSheet, {
+      data: null
+    });
+    this.getTodos();
+  }
+  getTodos() {
+    this.todos = null;
+    let todoRef;
+    this.data.getSheetInfo("Todo").subscribe(data => {
+      this.todos = data;
+      todoRef = this.todoSheet.open(TodoSheet, {
+        data: this.todos.todos
+      });
+      todoRef.instance.onAdd.subscribe(data => {
+        this.fillTodo(data);
+      });
+    });
+  }
+  fillTodo(data) {
+    this.formGroup.setValue({
+      amount: data[1],
+      source: null,
+      cat: data[2],
+      subCat: data[0],
+      comments: [data[3]],
+      billImgUrl: null
+    });
+    this.commentfield.nativeElement.focus();
+    this.amountfield.nativeElement.focus();
+    this.cat = data[2];
+    if (data[3]) {
+      this.comments = data[3].split(",");
+    } else {
+      this.comments = [];
+    }
+  }
   // mat chip variables
   selectable = true;
   removable = true;
@@ -73,6 +125,10 @@ export class TransactionComponent {
     this.suggestions.length ? this.hideSuggestions() : this.showSuggestions();
   }
   suggClick(suggestion) {
+    if (suggestion === "Todo") {
+      this.openTodo();
+      return;
+    }
     this.onToggleFab();
     let sugg = this.suggDetails[suggestion];
     this.formGroup.setValue({
@@ -152,6 +208,7 @@ export class TransactionComponent {
     let key = day == 0 || day == 6 ? "WE" + hour : hour;
     this.fabSuggestions = Object.assign([], formConsts.TIMELY_SUGGESTIONS[key]);
     this.fabSuggestions.push("Reset");
+    this.fabSuggestions.push("Todo");
   }
   getSetTransaction(id) {
     this.fetching = true;
@@ -309,5 +366,40 @@ export class TransactionComponent {
         this.localStorage.removeItem("unSubmittedForm").subscribe(() => {});
         this.comments = [];
       });
+  }
+}
+
+@Component({
+  selector: "todo-sheet",
+  templateUrl: "todo-sheet.component.html"
+})
+export class TodoSheet {
+  formattedTodos = [];
+  constructor(
+    @Inject(MAT_BOTTOM_SHEET_DATA) public todos: any,
+    private todoSheetRef: MatBottomSheetRef<TodoSheet>,
+    private router: Router
+  ) {
+    if (this.todos) {
+      this.todos.forEach(function(todo, i) {
+        let temp = {
+          name: todo[0],
+          status: todo[1] === true,
+          data: JSON.parse(todo[2])
+        };
+        this.formattedTodos.push(temp);
+      }, this);
+    }
+  }
+  onAdd = new EventEmitter();
+  fillForm(data) {
+    this.todoSheetRef.dismiss();
+    this.onAdd.emit(data);
+    event.preventDefault();
+  }
+  completedTodo(name) {
+    this.todoSheetRef.dismiss();
+    this.router.navigate(["/transactions"], { queryParams: { query: name } });
+    event.preventDefault();
   }
 }
