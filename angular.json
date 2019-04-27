@@ -29,7 +29,9 @@
             ],
             "styles": [
               "src/styles.scss",
-              "src/lightbox.css"
+              "src/lightbox.css",
+              "src/mapbox-gl.css",
+              "src/mapbox-gl-geocoder.css"
             ],
             "scripts": [
               "./node_modules/moment/min/moment.min.js"

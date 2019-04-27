@@ -1,0 +1,32 @@
+.marker {
+  font-size: 22px;
+}
+.mark-hdfc,
+.mark-icici {
+  color: #ffcc3d !important;
+}
+
+.mark-zeta,
+.mark-paytm {
+  color: #6fa8dc !important;
+}
+
+.mark-cash {
+  color: #b7e1cd !important;
+}
+
+.mark-hdfccredit,
+.mark-icicicredit {
+  color: #f4c7c3 !important;
+}
+.info-box {
+  position: fixed;
+  z-index: 10;
+  color: white;
+  top: 10px;
+  left: 10px;
+  text-shadow: 1px 4px 8px white;
+}
+.fix-width{
+  width: 300px !important;
+}

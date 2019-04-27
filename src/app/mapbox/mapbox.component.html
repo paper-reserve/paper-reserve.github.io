@@ -1,0 +1,54 @@
+<div *ngIf="currLoc" class="info-box">
+  <mat-card class="card fix-height fix-width" [ngClass]="currLoc.source | lowercase">
+    <div class="full-size">
+      <mat-card-header>
+        <div
+          mat-card-avatar
+          [ngClass]="currLoc.source | lowercase | prependStr: 'avatar-'"
+        ></div>
+        <mat-card-title>
+          {{ currLoc.amount | prependStr: "₹ " }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{ currLoc.date | date: "MMM dd, yyyy hh:mm" }}
+        </mat-card-subtitle>
+        <mat-icon (click)="currLoc=null">close</mat-icon>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-icon>{{ currLoc.cat | iconstr }}</mat-icon>
+        <span class="card-info-str">
+          {{ currLoc.subCat }}
+          <mat-chip-list class="right" *ngIf="currLoc.comment"
+            ><mat-chip
+              class="chip-color"
+              [selectable]="selectable"
+              *ngFor="let comment of currLoc.comment.toString().split(',')"
+            >
+              <p>{{ comment }}</p>
+            </mat-chip></mat-chip-list
+          >
+        </span>
+      </mat-card-content>
+    </div>
+  </mat-card>
+</div>
+<mgl-map
+  *ngIf="locations && locations.length"
+  [style]="'mapbox://styles/nagasundram/cjuxmwobi06le1fkes1tsszru'"
+  [zoom]="[18]"
+  [center]="locations[locations.length-1].lnglat"
+>
+  <mgl-marker
+    *ngFor="let loc of locations; let i = index"
+    [lngLat]="loc.lnglat"
+  >
+    <div
+      (click)="popupMarker(loc)"
+      class="marker"
+      [ngClass]="loc.source | lowercase | prependStr: 'mark-'"
+    >
+      <mat-icon>{{ loc.cat | iconstr }}</mat-icon>
+    </div>
+  </mgl-marker>
+</mgl-map>

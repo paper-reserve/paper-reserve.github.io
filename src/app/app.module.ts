@@ -15,6 +15,7 @@ import { ReverseStr, PrependStr } from "./list/stringManipulation.pipe";
 
 import { LightboxModule } from "ngx-lightbox";
 import { NgForageConfig, Driver } from "ngforage";
+import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 import {
   FilterPipe,
@@ -38,6 +39,7 @@ import { IncomeFormComponent } from './income-form/income-form.component';
 import { SavingsComponent } from './savings/savings.component';
 import { ChartComponent } from './chart/chart.component';
 import { HeatMapComponent } from './heat-map/heat-map.component';
+import { MapboxComponent } from './mapbox/mapbox.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,8 @@ import { HeatMapComponent } from './heat-map/heat-map.component';
     IncomeFormComponent,
     SavingsComponent,
     ChartComponent,
-    HeatMapComponent
+    HeatMapComponent,
+    MapboxComponent
   ],
   entryComponents: [BottomSheetBudget, TodoSheet],
   imports: [
@@ -78,6 +81,10 @@ import { HeatMapComponent } from './heat-map/heat-map.component';
     LightboxModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production
+    }),
+    NgxMapboxGLModule.withConfig({
+      accessToken: 'pk.eyJ1IjoibmFnYXN1bmRyYW0iLCJhIjoiY2psMXVtNXk1MWptbjN3bXBnMGN6bWF4ZCJ9.1TUsWyuX9yZ1REK6HSl_IA', // Optionnal, can also be set per map (accessToken input of mgl-map)
+      geocoderAccessToken: 'pk.eyJ1IjoibmFnYXN1bmRyYW0iLCJhIjoiY2psMXVtNXk1MWptbjN3bXBnMGN6bWF4ZCJ9.1TUsWyuX9yZ1REK6HSl_IA' // Optionnal, specify if different from the map access token, can also be set per mgl-geocoder (accessToken input of mgl-geocoder)
     })
   ],
   providers: [],

@@ -136,6 +136,10 @@ body {
 .mat-checkbox-disabled.mat-checkbox-indeterminate .mat-checkbox-background {
   background: #6fa8dc !important;
 }
-.mat-checkbox-disabled .mat-checkbox-label{
+.mat-checkbox-disabled .mat-checkbox-label {
   color: black !important;
+}
+mgl-map {
+  height: 800px;
+  width: 375px;
 }

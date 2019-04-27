@@ -10,6 +10,8 @@ import { IncomeFormComponent } from "./income-form/income-form.component";
 import { SavingsComponent } from "./savings/savings.component";
 import { ChartComponent } from "./chart/chart.component";
 import { HeatMapComponent } from "./heat-map/heat-map.component";
+import { MapboxComponent } from './mapbox/mapbox.component';
+
 
 const routes: Routes = [
   { path: "", redirectTo: "/add", pathMatch: 'full' },
@@ -22,7 +24,8 @@ const routes: Routes = [
   { path: "income", component: IncomeFormComponent },
   { path: "savings", component: SavingsComponent },
   { path: "chart", component: ChartComponent },
-  { path: "heatMap", component: HeatMapComponent }
+  { path: "heatMap", component: HeatMapComponent },
+  { path: "mapbox", component: MapboxComponent }
 ];
 
 @NgModule({
