@@ -170,7 +170,7 @@ export class ListComponent implements OnInit {
     this.data.getTransactions(this.monthFltr).subscribe(data => {
       this.transactions = data;
       let autoComplete = this.transactions.expenses.map(it => {
-        return it[5].split(",");
+        return it[5].toString().split(",");
       });
       this.localStorage
         .setItem("autoCompletes", autoComplete)

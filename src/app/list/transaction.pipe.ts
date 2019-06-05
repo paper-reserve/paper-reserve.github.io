@@ -20,7 +20,7 @@ export class FilterPipe implements PipeTransform {
         if (query.length <= 1) return items;
         return items.filter(it => {
           return (
-            it[5].toLowerCase().includes(query.toLowerCase()) ||
+            it[5].toString().toLowerCase().includes(query.toLowerCase()) ||
             it[1].toLowerCase().includes(query.toLowerCase())
           );
         });
