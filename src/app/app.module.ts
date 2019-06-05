@@ -23,8 +23,10 @@ import {
   IconStrPipe,
   PercentagePipe,
   SumAmtPipe,
+  SavingSumAmtPipe,
   SortingPipe,
   IsTodayPipe,
+  SmallSavingPipe,
   ArrayStringFilterPipe
 } from "./list/transaction.pipe";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -52,10 +54,12 @@ import { MapboxComponent } from './mapbox/mapbox.component';
     FilterPipe,
     ReversePipe,
     SumAmtPipe,
+    SavingSumAmtPipe,
     SortingPipe,
     IconStrPipe,
     PercentagePipe,
     IsTodayPipe,
+    SmallSavingPipe,
     ArrayStringFilterPipe,
     TransactionComponent,
     TodoSheet,

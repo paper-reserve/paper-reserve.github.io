@@ -98,7 +98,7 @@ export class ListComponent implements OnInit {
     private _lightbox: Lightbox,
     protected localStorage: LocalStorage,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -107,7 +107,7 @@ export class ListComponent implements OnInit {
         this.dateStart = new Date(params.date);
         this.dateEnd = new Date(params.date);
       }
-      if(params.query){
+      if (params.query) {
         this.query = params.query;
       }
       this.setMonthSelector();
@@ -125,10 +125,10 @@ export class ListComponent implements OnInit {
       this.monthFltr === this.currMonth
         ? new Date(moment().toString())
         : new Date(
-            moment(this.monthFltr)
-              .endOf("month")
-              .toString()
-          );
+          moment(this.monthFltr)
+            .endOf("month")
+            .toString()
+        );
   }
 
   dateClass = (d: Date) => {
@@ -163,10 +163,10 @@ export class ListComponent implements OnInit {
       this.monthFltr === this.currMonth
         ? new Date(moment().toString())
         : new Date(
-            moment(this.monthFltr)
-              .endOf("month")
-              .toString()
-          );
+          moment(this.monthFltr)
+            .endOf("month")
+            .toString()
+        );
     this.data.getTransactions(this.monthFltr).subscribe(data => {
       this.transactions = data;
       let autoComplete = this.transactions.expenses.map(it => {
@@ -204,6 +204,10 @@ export class ListComponent implements OnInit {
     });
     this.getBudgets();
   }
+  siruthuli = false;
+  siruToggle(event: MatSlideToggleChange) {
+    this.siruthuli = event.checked;
+  }
 }
 
 @Component({
@@ -218,7 +222,7 @@ export class BottomSheetBudget {
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA) public budgets: any,
     private bottomSheetRef: MatBottomSheetRef<BottomSheetBudget>
-  ) {}
+  ) { }
 
   openLink(event: MouseEvent): void {
     this.bottomSheetRef.dismiss();

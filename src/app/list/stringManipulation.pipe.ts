@@ -14,6 +14,8 @@ export class ReverseStr implements PipeTransform {
 @Pipe({ name: "prependStr" })
 export class PrependStr implements PipeTransform {
   transform(value: string, before: string): string {
-    return before + value;
+    if (value) {
+      return before + value;
+    }
   }
 }

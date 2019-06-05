@@ -20,7 +20,10 @@ export class FilterPipe implements PipeTransform {
         if (query.length <= 1) return items;
         return items.filter(it => {
           return (
-            it[5].toString().toLowerCase().includes(query.toLowerCase()) ||
+            it[5]
+              .toString()
+              .toLowerCase()
+              .includes(query.toLowerCase()) ||
             it[1].toLowerCase().includes(query.toLowerCase())
           );
         });
@@ -31,9 +34,9 @@ export class FilterPipe implements PipeTransform {
           return items.filter(it => {
             return (
               moment(query[0]).format("DD MM YYYY") <=
-                moment(it[0]).format("DD MM YYYY") &&
+              moment(it[0]).format("DD MM YYYY") &&
               moment(query[1]).format("DD MM YYYY") >=
-                moment(it[0]).format("DD MM YYYY")
+              moment(it[0]).format("DD MM YYYY")
             );
           });
         } else return items;
@@ -94,6 +97,29 @@ export class SumAmtPipe implements PipeTransform {
   }
 }
 
+@Pipe({ name: "savingSumAmt" })
+export class SavingSumAmtPipe implements PipeTransform {
+  transform(items: any[]) {
+    let sum = 0, saving, percentage, amount;
+    items.forEach(function(expense, i) {
+      if (expense[1] !== "Savings" && moment(expense[0]).format("DD MM YYYY") === moment().format("DD MM YYYY")) {
+        amount = expense[2]
+        if (amount < 2001) {
+          percentage = 5;
+        } else if (amount < 5001) {
+          percentage = 2;
+        } else {
+          percentage = 1;
+        }
+        saving = Math.round((percentage / 100) * amount);
+        saving = (saving === 0) ? 1 : saving;
+        sum += saving;
+      }
+    });
+    return sum;
+  }
+}
+
 @Pipe({ name: "reverse" })
 export class ReversePipe implements PipeTransform {
   transform(value) {
@@ -143,5 +169,25 @@ export class ArrayStringFilterPipe implements PipeTransform {
         return it.toLowerCase().includes(query.toLowerCase());
       });
     } else return items;
+  }
+}
+
+@Pipe({ name: "smallSaving" })
+export class SmallSavingPipe implements PipeTransform {
+  transform(amount, subcat) {
+    let saving = null,
+      percentage;
+    if (subcat !== "Savings") {
+      if (amount < 2001) {
+        percentage = 5;
+      } else if (amount < 5001) {
+        percentage = 2;
+      } else {
+        percentage = 1;
+      }
+      saving = Math.round((percentage / 100) * amount);
+      saving = (saving === 0) ? 1 : saving;
+    }
+    return saving;
   }
 }

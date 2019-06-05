@@ -129,6 +129,12 @@
           autocomplete="off"
         />
       </mat-form-field>
+      <mat-slide-toggle
+        color="primary"
+        [checked]="siruthuli"
+        (change)="siruToggle($event)">
+          சிறுதுளி
+      </mat-slide-toggle>
     </div>
     <div *ngIf="sortDrawer">
       <button
@@ -237,6 +243,9 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+         <div style="margin-top:-25px;" *ngIf="siruthuli">
+           சிறுதுளி: {{ transactions.expenses | savingSumAmt | prependStr: "₹ " }}
+        </div>
       </div>
     </div>
     <div class="list">
@@ -269,6 +278,9 @@
                   {{ transaction[0] | date: "MMM dd, yyyy hh:mm" }}
                 </p></mat-card-subtitle
               >
+              <mat-chip class="saving-chip" *ngIf="siruthuli">
+                {{ transaction[2] | smallSaving : transaction[1] | prependStr: "₹ " }}
+              </mat-chip>
               <a
                 class="right"
                 routerLink="/transactions/{{transaction[9]}}/show"
