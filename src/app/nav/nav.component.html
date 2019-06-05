@@ -17,7 +17,7 @@
   </button>
 
   <mat-icon [@speedDialStagger] color="warn" *ngIf="!online">cloud</mat-icon>
-  <mat-icon [@speedDialStagger] color="primary" *ngIf="online">cloud</mat-icon>
+  <mat-icon [@speedDialStagger] color="primary" *ngIf="online" (click)="reload()">cloud</mat-icon>
   <div [@speedDialStagger]="buttons.length" *ngFor="let btn of buttons">
     <a
       routerLink="{{btn.link}}"

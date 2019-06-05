@@ -60,12 +60,12 @@ export class NavComponent implements OnInit {
   constructor(
     protected localStorage: LocalStorage,
     private data: DataService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.checkNetwork();
   }
-  checkNetwork(){
+  checkNetwork() {
     this.online = navigator.onLine;
     setTimeout(() => {
       this.checkNetwork();
@@ -95,12 +95,15 @@ export class NavComponent implements OnInit {
         this.chips.push(tmp);
         this.loading = false;
       }
-      this.localStorage.setItem("balance", result).subscribe(() => {});
+      this.localStorage.setItem("balance", result).subscribe(() => { });
     });
   }
 
   onToggleFab() {
     this.chips = [];
     this.buttons.length ? this.hideItems() : this.showItems();
+  }
+  reload() {
+    window.location.reload();
   }
 }
