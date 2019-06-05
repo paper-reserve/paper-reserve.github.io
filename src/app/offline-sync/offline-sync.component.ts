@@ -21,7 +21,7 @@ export class OfflineSyncComponent implements OnInit {
     private router: Router,
     protected localStorage: LocalStorage,
     private snackBar: MatSnackBar
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getOfflineTransactions();
@@ -65,9 +65,15 @@ export class OfflineSyncComponent implements OnInit {
               this.syncTran = null;
               this.router.navigate(redirect);
             });
-            this.localStorage.removeItem("unSubmittedForm").subscribe(() => {});
+            this.localStorage.removeItem("unSubmittedForm").subscribe(() => { });
           });
       }
     });
+  }
+
+  remove(transaction) {
+    this.data.delOffTran(transaction.key).then(out => {
+      this.getOfflineTransactions();
+    })
   }
 }
