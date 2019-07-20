@@ -148,6 +148,11 @@ export class TransactionComponent {
     } else {
       this.comments = [];
     }
+    if (suggestion === "Reset") {
+      this.localStorage.removeItem("unSubmittedForm").subscribe(() => {
+        window.location.reload();
+      });
+    }
   }
 
   // FORM
@@ -185,6 +190,13 @@ export class TransactionComponent {
       this.commentfield.nativeElement.focus();
       this.amountfield.nativeElement.focus();
     }, 100);
+  }
+
+  fabSourceClick(source) {
+    this.source = source;
+    this.formGroup.patchValue({
+      source: source
+    });
   }
 
   editCheck() {

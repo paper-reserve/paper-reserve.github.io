@@ -42,7 +42,7 @@
       <button type="button" *ngFor="let fabSource of fabSources"
          mat-mini-fab
          [ngClass]="{'selected-source': source === fabSource.name}"
-         (click)="source=fabSource.name">
+         (click)="fabSourceClick(fabSource.name)">
          <img src={{fabSource.img}} width=25/>
          <div *ngIf="balances && balances[fabSource.name]" class="source-value">{{
            balances[fabSource.name] | prependStr: "₹"
