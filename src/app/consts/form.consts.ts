@@ -17,6 +17,16 @@ export const formConsts = {
     { name: "ICICI Credit", img: "/assets/icici.png" },
     { name: "HDFC Credit", img: "/assets/hdfc.png" }
   ],
+  FAB_CATS: [
+    { name: "Food" },
+    { name: "Shopping" },
+    { name: "Travel" },
+    { name: "Entertainment" },
+    { name: "Payments" },
+    { name: "Medical" },
+    { name: "Misc." },
+    { name: "Transactions" }
+  ],
   CATEGORIES: [
     "Food",
     "Shopping",

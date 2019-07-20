@@ -42,15 +42,15 @@
         </mat-select>
       </mat-form-field>
       <div class="source-button-row">
-      <button type="button" *ngFor="let fabSource of fabSources"
-         mat-mini-fab
-         [ngClass]="{'selected-source': source === fabSource.name}"
-         (click)="fabSourceClick(fabSource.name)">
-         <img src={{fabSource.img}} width=25/>
-       </button>
+        <button type="button" *ngFor="let fabSource of fabSources"
+           mat-mini-fab
+           [ngClass]="{'selected-source': source === fabSource.name}"
+           (click)="fabSourceClick(fabSource.name)">
+           <img src={{fabSource.img}} width=25/>
+         </button>
       </div>
 
-      <mat-form-field class="form-element">
+      <mat-form-field class="form-element" class="hidden">
         <mat-label>Select Category</mat-label>
         <mat-icon matPrefix>category</mat-icon>
         <mat-select [(value)]="cat" formControlName="cat">
@@ -59,6 +59,14 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div class="cat-button-row">
+        <button type="button" *ngFor="let fabCat of fabCats"
+           mat-fab
+           [ngClass]="{'selected-cat': cat === fabCat.name}"
+           (click)="fabCatClick(fabCat.name)">
+           <mat-icon>{{ fabCat.name | iconstr }}</mat-icon>
+         </button>
+      </div>
 
       <mat-form-field class="form-element" *ngIf="cat != 'Misc.'">
         <mat-label>Select Sub Category</mat-label>

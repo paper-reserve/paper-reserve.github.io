@@ -164,6 +164,7 @@ export class TransactionComponent {
   balances: any;
   sources = formConsts.SOURCES;
   fabSources = formConsts.FAB_SOURCES;
+  fabCats = formConsts.FAB_CATS;
   source;
   cats = formConsts.CATEGORIES;
   subCats = formConsts.SUBCATS;
@@ -196,6 +197,13 @@ export class TransactionComponent {
     this.source = source;
     this.formGroup.patchValue({
       source: source
+    });
+  }
+
+  fabCatClick(cat) {
+    this.cat = cat;
+    this.formGroup.patchValue({
+      cat: cat
     });
   }
 
