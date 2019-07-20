@@ -16,6 +16,9 @@
           [(ngModel)]="amount"
           #eamount
         />
+        <span *ngIf="balances && balances[source]" matSuffix>{{
+          balances[source] | prependStr: "₹ "
+        }}</span>
         <mat-error
           *ngIf="
             !formGroup.controls['amount'].valid &&
@@ -44,9 +47,6 @@
          [ngClass]="{'selected-source': source === fabSource.name}"
          (click)="fabSourceClick(fabSource.name)">
          <img src={{fabSource.img}} width=25/>
-         <div *ngIf="balances && balances[fabSource.name]" class="source-value">{{
-           balances[fabSource.name] | prependStr: "₹"
-         }}</div>
        </button>
       </div>
 

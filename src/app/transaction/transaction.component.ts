@@ -245,6 +245,7 @@ export class TransactionComponent {
         comments: [null, []],
         billImgUrl: []
       });
+      this.source = transaction[3];
       this.cat = transaction[4];
       this.amount = transaction[2];
       this.comments = transaction[5].split(",");
