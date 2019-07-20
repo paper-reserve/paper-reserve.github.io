@@ -141,6 +141,7 @@ export class TransactionComponent {
     });
     this.commentfield.nativeElement.focus();
     this.amountfield.nativeElement.focus();
+    this.source = sugg[0];
     this.cat = sugg[1];
     if (sugg[5]) {
       this.comments = sugg[5].split(",");
@@ -157,6 +158,8 @@ export class TransactionComponent {
   imgAdded = false;
   balances: any;
   sources = formConsts.SOURCES;
+  fabSources = formConsts.FAB_SOURCES;
+  source;
   cats = formConsts.CATEGORIES;
   subCats = formConsts.SUBCATS;
   comments: string[] = [];
@@ -291,6 +294,7 @@ export class TransactionComponent {
           billImgUrl: []
         });
         this.cat = unSubmittedForm.cat;
+        this.source = unSubmittedForm.source;
         if (unSubmittedForm) {
           this.comments = unSubmittedForm.comments;
         } else {

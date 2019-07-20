@@ -8,6 +8,15 @@ export const formConsts = {
     "Zeta",
     "Paytm"
   ],
+  FAB_SOURCES: [
+    { name: "Cash", img: "/assets/rupee.png" },
+    { name: "HDFC", img: "/assets/hdfc.png" },
+    { name: "ICICI", img: "/assets/icici.png" },
+    { name: "Zeta", img: "/assets/zeta.png" },
+    { name: "Paytm", img: "/assets/paytm.png" },
+    { name: "ICICI Credit", img: "/assets/icici.png" },
+    { name: "HDFC Credit", img: "/assets/hdfc.png" }
+  ],
   CATEGORIES: [
     "Food",
     "Shopping",

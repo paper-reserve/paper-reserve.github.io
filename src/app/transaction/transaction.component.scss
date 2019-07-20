@@ -1,3 +1,6 @@
+.hidden {
+  display: none;
+}
 .form-element {
   padding: 15px 5px 0px 0px;
   width: 80%;
@@ -45,4 +48,21 @@
   right: 0;
   bottom: 0;
   z-index: 99;
+}
+
+.source-button-row {
+  margin-left: 35px;
+  margin-top: 10px;
+}
+.source-button-row button,{
+  margin-right: 5px;
+  background: none;
+}
+.source-button-row .selected-source {
+  background-color: #90EE90;
+  box-shadow: none
+}
+.source-button-row .source-value {
+  color: black;
+  margin-top: 10px;
 }

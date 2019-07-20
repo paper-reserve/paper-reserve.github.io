@@ -26,7 +26,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field class="form-element">
+      <mat-form-field class="form-element" class="hidden">
         <mat-label>Select Source</mat-label>
         <mat-icon matPrefix>credit_card</mat-icon>
         <span *ngIf="balances && balances[source]" matSuffix>{{
@@ -38,6 +38,17 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div class="source-button-row">
+      <button type="button" *ngFor="let fabSource of fabSources"
+         mat-mini-fab
+         [ngClass]="{'selected-source': source === fabSource.name}"
+         (click)="source=fabSource.name">
+         <img src={{fabSource.img}} width=25/>
+         <div *ngIf="balances && balances[fabSource.name]" class="source-value">{{
+           balances[fabSource.name] | prependStr: "₹"
+         }}</div>
+       </button>
+      </div>
 
       <mat-form-field class="form-element">
         <mat-label>Select Category</mat-label>
